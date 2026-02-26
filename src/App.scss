@@ -7,14 +7,58 @@
   font-family: "Poppins", san-serif;
 }
 
-header {
-  padding: 0 5px;
-  background: blue;
+div.layout {
+  background: red;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto 1fr auto;
 
-  h1 {
-    color: white;
+  header {
+    padding: 0 5px;
+    background: blue;
+
+    h1 {
+      color: white;
+    }
+    p.welcome {
+      color: white;
+    }
   }
-  p.welcome {
-    color: white;
+
+  nav {
+    padding: 5px;
+    background: navy;
+    display: flex;
+    gap: 10px;
+
+    div.navItem a {
+      color: white;
+      text-decoration: none;
+
+      &:hover {
+        color: yellow;
+      }
+    }
+  }
+
+  main {
+  }
+
+  footer {
+    height: 50px;
+    padding: 0 5px;
+    background: navy;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    p.Contact {
+      color: white;
+
+      &:hover {
+        color: yellow;
+      }
+    }
   }
 }
