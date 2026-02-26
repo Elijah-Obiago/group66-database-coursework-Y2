@@ -29,9 +29,7 @@ function App() {
         </div>
       </nav>
 
-      <main>
-        <p>Homepage</p>
-      </main>
+      <main></main>
 
       <footer>
         <p className="Contact">Contact Us</p>
