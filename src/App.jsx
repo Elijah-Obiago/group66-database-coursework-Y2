@@ -2,6 +2,7 @@ import "./App.scss";
 
 function App() {
   const loggedInUser = "User";
+  //const test = "Test";
 
   const clinics = [
     {
