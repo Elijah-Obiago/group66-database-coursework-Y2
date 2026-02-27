@@ -134,10 +134,18 @@ function App() {
       </nav>
 
       <main>
-      <h1>Travel Jab Clinic Locations</h1>
-      {clinics.map((clinic) => {
-        return ()
-      })}
+        <h1>Travel Jab Clinic Locations</h1>
+        {clinics.map((clinic) => {
+          return (
+            <div key={clinic.ClinicID} className="clinicCard">
+              <p>{clinic.ClinicID}</p>
+              <p>{clinic.ClinicName}</p>
+              <p>{clinic.ClinicAddress}</p>
+              <p>{clinic.ClinicPostcode}</p>
+              <p>{clinic.ClinicContact}</p>
+            </div>
+          );
+        })}
       </main>
 
       <footer>
