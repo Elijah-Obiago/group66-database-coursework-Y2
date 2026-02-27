@@ -181,7 +181,10 @@ function App() {
             );
           })}
         </div>
-        <h1>Travel Jab Clinic Locations</h1>
+        <h1>
+          Travel Jab Clinic Locations ("To Be Put Inside Cards Once They Are
+          Clickable")
+        </h1>
         {clinics.map((clinic) => {
           return (
             <div key={clinic.ClinicID} className="clinicCard">
