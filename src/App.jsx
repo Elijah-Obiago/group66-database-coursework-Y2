@@ -118,19 +118,19 @@ function App() {
 
       <nav>
         <div className="navItem">
-          <a to="/modules">Home</a>
+          <a to="/clinics">Home</a>
         </div>
         <div className="navItem">
-          <a to="/modules">New Appointment</a>
+          <a to="/clinics">New Appointment</a>
         </div>
         <div className="navItem">
-          <a to="/modules">My Bookings</a>
+          <a to="/clinics">My Bookings</a>
         </div>
         <div className="navItem">
-          <a to="/modules">Prescriptions</a>
+          <a to="/clinics">Prescriptions</a>
         </div>
         <div className="navItem">
-          <a to="/modules">Settings</a>
+          <a to="/clinics">Settings</a>
         </div>
       </nav>
 
