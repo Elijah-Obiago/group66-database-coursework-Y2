@@ -144,6 +144,10 @@ function App() {
               <p>{clinic.ClinicAddress}</p>
               <p>{clinic.ClinicPostcode}</p>
               <p>{clinic.ClinicContact}</p>
+              <p>
+                {clinic.ClinicManagerFirstname} {clinic.ClinicManagerLastname}
+              </p>
+              <p>{clinic.ClinicManagerID}</p>
             </div>
           );
         })}
