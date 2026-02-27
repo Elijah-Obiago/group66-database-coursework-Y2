@@ -13,6 +13,8 @@ function App() {
       ClinicManagerID: 1,
       ClinicManagerFirstname: "Emma",
       ClinicManagerLastname: "Collins",
+      ClinicImageURL:
+        "https://images.freeimages.com/images/small-previews/9b8/electronic-components-2-1242738.jpg",
     },
     {
       ClinicID: 2,
@@ -23,6 +25,8 @@ function App() {
       ClinicManagerID: 5,
       ClinicManagerFirstname: "Omar",
       ClinicManagerLastname: "Rahman",
+      ClinicImageURL:
+        "https://images.freeimages.com/images/small-previews/9b8/electronic-components-2-1242738.jpg",
     },
     {
       ClinicID: 3,
@@ -33,6 +37,8 @@ function App() {
       ClinicManagerID: 8,
       ClinicManagerFirstname: "Priya",
       ClinicManagerLastname: "Shah",
+      ClinicImageURL:
+        "https://images.freeimages.com/images/small-previews/9b8/electronic-components-2-1242738.jpg",
     },
     {
       ClinicID: 4,
@@ -43,6 +49,8 @@ function App() {
       ClinicManagerID: 12,
       ClinicManagerFirstname: "Thomas",
       ClinicManagerLastname: "Hughes",
+      ClinicImageURL:
+        "https://images.freeimages.com/images/small-previews/9b8/electronic-components-2-1242738.jpg",
     },
     {
       ClinicID: 5,
@@ -53,6 +61,8 @@ function App() {
       ClinicManagerID: 15,
       ClinicManagerFirstname: "Samira",
       ClinicManagerLastname: "Noor",
+      ClinicImageURL:
+        "https://images.freeimages.com/images/small-previews/9b8/electronic-components-2-1242738.jpg",
     },
     {
       ClinicID: 6,
@@ -63,6 +73,8 @@ function App() {
       ClinicManagerID: 19,
       ClinicManagerFirstname: "Mehdi",
       ClinicManagerLastname: "Farouk",
+      ClinicImageURL:
+        "https://images.freeimages.com/images/small-previews/9b8/electronic-components-2-1242738.jpg",
     },
     {
       ClinicID: 7,
@@ -73,6 +85,8 @@ function App() {
       ClinicManagerID: 22,
       ClinicManagerFirstname: "James",
       ClinicManagerLastname: "Walker",
+      ClinicImageURL:
+        "https://images.freeimages.com/images/small-previews/9b8/electronic-components-2-1242738.jpg",
     },
     {
       ClinicID: 8,
@@ -83,6 +97,8 @@ function App() {
       ClinicManagerID: 26,
       ClinicManagerFirstname: "Saira",
       ClinicManagerLastname: "Malik",
+      ClinicImageURL:
+        "https://images.freeimages.com/images/small-previews/9b8/electronic-components-2-1242738.jpg",
     },
     {
       ClinicID: 9,
@@ -93,6 +109,8 @@ function App() {
       ClinicManagerID: 29,
       ClinicManagerFirstname: "Khalid",
       ClinicManagerLastname: "Nasser",
+      ClinicImageURL:
+        "https://images.freeimages.com/images/small-previews/9b8/electronic-components-2-1242738.jpg",
     },
     {
       ClinicID: 10,
@@ -103,6 +121,8 @@ function App() {
       ClinicManagerID: 33,
       ClinicManagerFirstname: "Robert",
       ClinicManagerLastname: "Mitchell",
+      ClinicImageURL:
+        "https://images.freeimages.com/images/small-previews/9b8/electronic-components-2-1242738.jpg",
     },
   ];
 
@@ -117,23 +137,37 @@ function App() {
 
       <nav>
         <div className="navItem">
-          <a to="/modules">Home</a>
+          <a href="#">Home</a>
         </div>
         <div className="navItem">
-          <a to="/modules">New Appointment</a>
+          <a href="#">New Appointment</a>
         </div>
         <div className="navItem">
-          <a to="/modules">My Bookings</a>
+          <a href="#">My Bookings</a>
         </div>
         <div className="navItem">
-          <a to="/modules">Prescriptions</a>
+          <a href="#">Prescriptions</a>
         </div>
         <div className="navItem">
-          <a to="/modules">Settings</a>
+          <a href="#">Settings</a>
         </div>
       </nav>
 
-      <main></main>
+      <main>
+        <h1>Clinics</h1>
+
+        <div className="cardContainer">
+          {clinics.map((clinic) => {
+            return (
+              <div className="card" key={clinic.ClinicID}>
+                <p>{clinic.ClinicName}</p>
+                <p>{clinic.ClinicPostcode}</p>
+                <img src={clinic.ClinicImageURL} alt="Clinic" />
+              </div>
+            );
+          })}
+        </div>
+      </main>
 
       <footer>
         <p className="Contact">Contact Us</p>
