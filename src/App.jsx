@@ -2,6 +2,7 @@ import "./App.scss";
 
 function App() {
   const loggedInUser = "User";
+  //const test = "Test";
 
   const clinics = [
     {
@@ -150,6 +151,19 @@ function App() {
         </div>
         <div className="navItem">
           <a href="#">Settings</a>
+          <a to="/clinics">Home</a>
+        </div>
+        <div className="navItem">
+          <a to="/clinics">New Appointment</a>
+        </div>
+        <div className="navItem">
+          <a to="/clinics">My Bookings</a>
+        </div>
+        <div className="navItem">
+          <a to="/clinics">Prescriptions</a>
+        </div>
+        <div className="navItem">
+          <a to="/clinics">Settings</a>
         </div>
       </nav>
 
@@ -167,6 +181,22 @@ function App() {
             );
           })}
         </div>
+        <h1>Travel Jab Clinic Locations</h1>
+        {clinics.map((clinic) => {
+          return (
+            <div key={clinic.ClinicID} className="clinicCard">
+              <p>{clinic.ClinicID}</p>
+              <p>{clinic.ClinicName}</p>
+              <p>{clinic.ClinicAddress}</p>
+              <p>{clinic.ClinicPostcode}</p>
+              <p>{clinic.ClinicContact}</p>
+              <p>
+                {clinic.ClinicManagerFirstname} {clinic.ClinicManagerLastname}
+              </p>
+              <p>{clinic.ClinicManagerID}</p>
+            </div>
+          );
+        })}
       </main>
 
       <footer>
