@@ -15,7 +15,7 @@ div.layout {
 
   header {
     padding: 0 5px;
-    background: black;
+    background: blue;
 
     h1 {
       color: white;
@@ -28,7 +28,7 @@ div.layout {
 
   nav {
     padding: 5px;
-    background: limegreen;
+    background: navy;
     display: flex;
     gap: 10px;
 
@@ -78,7 +78,7 @@ div.layout {
   footer {
     height: 50px;
     padding: 0 5px;
-    background: limegreen;
+    background: navy;
     display: flex;
     align-items: center;
     justify-content: center;
