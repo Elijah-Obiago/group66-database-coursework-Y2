@@ -150,6 +150,9 @@ function App() {
           <a href="#">Prescriptions</a>
         </div>
         <div className="navItem">
+          <a href="#">View</a>
+        </div>
+        <div className="navItem">
           <a href="#">Settings</a>
         </div>
       </nav>
