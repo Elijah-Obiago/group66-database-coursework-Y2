@@ -164,25 +164,18 @@ function App() {
                 <p>{clinic.ClinicName}</p>
                 <p>{clinic.ClinicPostcode}</p>
                 <img src={clinic.ClinicImageURL} alt="Clinic" />
+                <div key={clinic.ClinicID} className="clinicCard">
+                  <p>{clinic.ClinicContact}</p>
+                  <p>
+                    {clinic.ClinicManagerFirstname}{" "}
+                    {clinic.ClinicManagerLastname}
+                  </p>
+                  <p>{clinic.ClinicManagerID}</p>
+                </div>
               </div>
             );
           })}
         </div>
-        <h1>
-          Travel Jab Clinic Additional Info ("To Be Put Inside Cards Once They
-          Are Clickable")
-        </h1>
-        {clinics.map((clinic) => {
-          return (
-            <div key={clinic.ClinicID} className="clinicCard">
-              <p>{clinic.ClinicContact}</p>
-              <p>
-                {clinic.ClinicManagerFirstname} {clinic.ClinicManagerLastname}
-              </p>
-              <p>{clinic.ClinicManagerID}</p>
-            </div>
-          );
-        })}
       </main>
 
       <footer>
