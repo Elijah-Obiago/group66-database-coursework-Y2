@@ -1,3 +1,4 @@
+import Header from "./Header.jsx";
 import "./App.scss";
 
 function App() {
@@ -129,13 +130,7 @@ function App() {
 
   return (
     <div className="layout">
-      <header>
-        <h1>Travel Jab Clinic</h1>
-        <p className="welcome">
-          Welcome to our travel vaccination clinic, {loggedInUser}!
-        </p>
-      </header>
-
+      <Header loggedInUser={loggedInUser} />
       <nav>
         <div className="navItem">
           <a href="#">Home</a>
@@ -158,6 +153,8 @@ function App() {
       </nav>
 
       <main>
+        <h1>Homepage</h1>
+
         <h1>Clinics</h1>
 
         <div className="cardContainer">
@@ -179,6 +176,8 @@ function App() {
             );
           })}
         </div>
+
+        <h1>Manager Responsibilities</h1>
       </main>
 
       <footer>
