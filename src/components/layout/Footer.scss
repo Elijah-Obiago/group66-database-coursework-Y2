@@ -1,0 +1,16 @@
+footer {
+  height: 50px;
+  padding: 0 5px;
+  background: navy;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  p.Contact {
+    color: white;
+
+    &:hover {
+      color: goldenrod;
+    }
+  }
+}

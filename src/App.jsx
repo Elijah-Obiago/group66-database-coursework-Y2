@@ -1,3 +1,5 @@
+import Layout from "./components/layout/Layout.jsx";
+import { CardContainer, Card } from "./components/UI/Card.jsx";
 import "./App.scss";
 
 function App() {
@@ -128,63 +130,32 @@ function App() {
   ];
 
   return (
-    <div className="layout">
-      <header>
-        <h1>Travel Jab Clinic</h1>
-        <p className="welcome">
-          Welcome to our travel vaccination clinic, {loggedInUser}!
-        </p>
-      </header>
+    <Layout loggedInUser={loggedInUser}>
+      <h1>Homepage</h1>
 
-      <nav>
-        <div className="navItem">
-          <a href="#">Home</a>
-        </div>
-        <div className="navItem">
-          <a href="#">New Appointment</a>
-        </div>
-        <div className="navItem">
-          <a href="#">My Bookings</a>
-        </div>
-        <div className="navItem">
-          <a href="#">Prescriptions</a>
-        </div>
-        <div className="navItem">
-          <a href="#">View</a>
-        </div>
-        <div className="navItem">
-          <a href="#">Settings</a>
-        </div>
-      </nav>
+      <h1>Clinics</h1>
 
-      <main>
-        <h1>Clinics</h1>
-
-        <div className="cardContainer">
-          {clinics.map((clinic) => {
-            return (
-              <div className="card" key={clinic.ClinicID}>
-                <p>{clinic.ClinicName}</p>
-                <p>{clinic.ClinicPostcode}</p>
-                <img src={clinic.ClinicImageURL} alt="Clinic" />
-                <div key={clinic.ClinicID} className="clinicCard">
-                  <p>{clinic.ClinicContact}</p>
-                  <p>
-                    {clinic.ClinicManagerFirstname}{" "}
-                    {clinic.ClinicManagerLastname}
-                  </p>
-                  <p>{clinic.ClinicManagerID}</p>
-                </div>
+      <CardContainer>
+        {clinics.map((clinic) => {
+          return (
+            <Card key={clinic.ClinicID}>
+              <p>{clinic.ClinicName}</p>
+              <p>{clinic.ClinicPostcode}</p>
+              <img src={clinic.ClinicImageURL} alt="Clinic" />
+              <div key={clinic.ClinicID} className="clinicCard">
+                <p>{clinic.ClinicContact}</p>
+                <p>
+                  {clinic.ClinicManagerFirstname} {clinic.ClinicManagerLastname}
+                </p>
+                <p>{clinic.ClinicManagerID}</p>
               </div>
-            );
-          })}
-        </div>
-      </main>
+            </Card>
+          );
+        })}
+      </CardContainer>
 
-      <footer>
-        <p className="Contact">Contact Us</p>
-      </footer>
-    </div>
+      <h1>Manager Responsibilities</h1>
+    </Layout>
   );
 }
 
