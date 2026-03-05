@@ -1,28 +1,35 @@
+import { NavLink } from "react-router-dom";
 import "./NavBar.scss";
 
 function NavBar() {
   return (
     <nav>
       <div className="navItem">
-        <a href="#">Home</a>
+        <NavLink to="/">Home</NavLink>
       </div>
+
       <div className="navItem">
-        <a href="#">New Appointment</a>
+        <NavLink to="/new-appointment">New Appointment</NavLink>
       </div>
+
       <div className="navItem">
-        <a href="#">My Bookings</a>
+        <NavLink to="/bookings">My Bookings</NavLink>
       </div>
+
       <div className="navItem">
-        <a href="#">Prescriptions</a>
+        <NavLink to="/prescriptions">Prescriptions</NavLink>
       </div>
+
       <div className="navItem">
-        <a href="#">Clinics</a>
+        <NavLink to="/clinics">Clinics</NavLink>
       </div>
+
       <div className="navItem">
-        <a href="#">App Views</a>
+        <NavLink to="/appviews">App Views</NavLink>
       </div>
+
       <div className="navItem">
-        <a href="#">Settings</a>
+        <NavLink to="/settings">Settings</NavLink>
       </div>
     </nav>
   );
