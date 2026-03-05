@@ -16,7 +16,10 @@ function NavBar() {
         <a href="#">Prescriptions</a>
       </div>
       <div className="navItem">
-        <a href="#">View</a>
+        <a href="#">Clinics</a>
+      </div>
+      <div className="navItem">
+        <a href="#">App Views</a>
       </div>
       <div className="navItem">
         <a href="#">Settings</a>
