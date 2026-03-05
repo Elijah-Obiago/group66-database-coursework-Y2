@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { CardContainer, Card } from "../UI/Card.jsx";
 import "./Clinics.scss";
 
+// Initialisation -----------------------------------
+
 function Clinics() {
-  const clinics = [
+  const clinicsList = [
     {
       ClinicID: 1,
       ClinicName: "TravelJabs Brighton",
@@ -124,29 +127,56 @@ function Clinics() {
         "https://images.freeimages.com/images/small-previews/9b8/electronic-components-2-1242738.jpg",
     },
   ];
-  return (
-    <>
-      <h1>Clinic Locations</h1>
-      <CardContainer>
-        {clinics.map((clinic) => {
-          return (
-            <Card key={clinic.ClinicID}>
-              <p>{clinic.ClinicName}</p>
-              <p>{clinic.ClinicPostcode}</p>
-              <img src={clinic.ClinicImageURL} alt="Clinic" />
-              <div key={clinic.ClinicID} className="clinicCard">
-                <p>{clinic.ClinicContact}</p>
-                <p>
-                  {clinic.ClinicManagerFirstname} {clinic.ClinicManagerLastname}
-                </p>
-                <p>{clinic.ClinicManagerID}</p>
+  
+    // Initialisation -----------------------------------
+    const newClinic = {
+      ClinicID: 0,
+      ClinicName: "TravelJabs New Clinic",
+      ClinicAddress: "1 Example Street, London",
+      ClinicPostcode: "SW1A 1AA",
+      ClinicContact: "020 0000 0000",
+      ClinicManagerID: 0,
+      ClinicManagerFirstname: "New",
+      ClinicManagerLastname: "Manager",
+      ClinicImageURL:
+        "https://images.freeimages.com/images/small-previews/9b8/electronic-components-2-1242738.jpg",
+    };
+  
+    // State --------------------------------------------
+    const [clinics, setClinics] = useState(clinicsList);
+  
+    // Handlers -----------------------------------------
+    const handleAdd = (clinic) => {
+      clinic.ClinicID = Math.floor(10000 * Math.random());
+      setClinics([...clinics, clinic]);
+      console.log(`Length of clinics: ${clinics.length}`);
+    };
+  
+    // View ---------------------------------------------
+    return (
+      <>
+        <h1>Clinics</h1>
+  
+        <CardContainer>
+          {clinics.map((clinic) => {
+            return (
+              <div className="clinicCard" key={clinic.ClinicID}>
+                <Card>
+                  <p>{clinic.ClinicName}</p>
+                  <p>{clinic.ClinicPostcode}</p>
+                  <img src={clinic.ClinicImageURL} alt={clinic.ClinicName} />
+                  <p>{clinic.ClinicContact}</p>
+                  <p>
+                    {clinic.ClinicManagerFirstname} {clinic.ClinicManagerLastname}
+                  </p>
+                </Card>
               </div>
-            </Card>
-          );
-        })}
-      </CardContainer>
-    </>
-  );
-}
-
+            );
+          })}
+        </CardContainer>
+  
+        <button onClick={() => handleAdd(newClinic)}>Add clinic</button>
+      </>
+    );
+  }
 export default Clinics;
