@@ -1,7 +1,7 @@
 import Action from "../../UI/Actions.jsx";
 import "./ClinicForm.scss";
 
-const ClinicForm = (onCancel) => {
+const ClinicForm = ({ onCancel }) => {
   //Initialisation --------------------------------------
   // State -----------------------------------------------
   // Handlers -----------------------------------------

@@ -3,6 +3,7 @@ import Action from "../UI/Actions.jsx";
 import ClinicForm from "../entity/Clinic/ClinicForm.jsx";
 import { CardContainer, Card } from "../UI/Card.jsx";
 import "./Clinics.scss";
+import Spacer from "../UI/Spacer.jsx";
 
 // Initialisation -----------------------------------
 
@@ -52,45 +53,47 @@ function Clinics() {
     <>
       <h1>Clinics</h1>
 
-      {!showForm ? (
-        <Action.Tray>
-          <Action.Add
-            showText
-            buttonText="Add new clinic location"
-            onClick={handleAdd}
-          />
-        </Action.Tray>
-      ) : (
-        <ClinicForm onCancel={handleCancel} />
-      )}
+      <Spacer>
+        {!showForm ? (
+          <Action.Tray>
+            <Action.Add
+              showText
+              buttonText="Add new clinic location"
+              onClick={handleAdd}
+            />
+          </Action.Tray>
+        ) : (
+          <ClinicForm onCancel={handleCancel} />
+        )}
 
-      {!clinics ? (
-        <p>Loading records ...</p>
-      ) : (
-        <>
-          <CardContainer>
-            {clinics.map((clinic) => {
-              return (
-                <div className="clinicCard" key={clinic.ClinicID}>
-                  <Card>
-                    <p>{clinic.ClinicName}</p>
-                    <p>{clinic.ClinicPostcode}</p>
-                    <img
-                      src={clinic.ClinicImageURL ?? newClinic.ClinicImageURL}
-                      alt={clinic.ClinicName}
-                    />
-                    <p>{clinic.ClinicContact}</p>
-                    <p>
-                      {clinic.ClinicManagerFirstname}{" "}
-                      {clinic.ClinicManagerLastname}
-                    </p>
-                  </Card>
-                </div>
-              );
-            })}
-          </CardContainer>
-        </>
-      )}
+        {!clinics ? (
+          <p>Loading records ...</p>
+        ) : (
+          <>
+            <CardContainer>
+              {clinics.map((clinic) => {
+                return (
+                  <div className="clinicCard" key={clinic.ClinicID}>
+                    <Card>
+                      <p>{clinic.ClinicName}</p>
+                      <p>{clinic.ClinicPostcode}</p>
+                      <img
+                        src={clinic.ClinicImageURL ?? newClinic.ClinicImageURL}
+                        alt={clinic.ClinicName}
+                      />
+                      <p>{clinic.ClinicContact}</p>
+                      <p>
+                        {clinic.ClinicManagerFirstname}{" "}
+                        {clinic.ClinicManagerLastname}
+                      </p>
+                    </Card>
+                  </div>
+                );
+              })}
+            </CardContainer>
+          </>
+        )}
+      </Spacer>
     </>
   );
 }
