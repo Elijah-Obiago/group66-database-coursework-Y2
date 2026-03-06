@@ -1,7 +1,7 @@
 import Action from "../../UI/Actions.jsx";
 import "./ClinicForm.scss";
 
-const ClinicForm = (props) => {
+const ClinicForm = (onCancel) => {
   //Initialisation --------------------------------------
   // State -----------------------------------------------
   // Handlers -----------------------------------------
@@ -10,11 +10,7 @@ const ClinicForm = (props) => {
     <div className="clinicForm">
       <p>This is your form!</p>
       <Action.Tray>
-        <Action.Cancel
-          showText
-          buttonText="Cancel form"
-          onClick={props.onCancel}
-        />
+        <Action.Cancel showText buttonText="Cancel form" onClick={onCancel} />
       </Action.Tray>
     </div>
   );

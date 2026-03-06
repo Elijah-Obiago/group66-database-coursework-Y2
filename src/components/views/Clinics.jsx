@@ -40,9 +40,11 @@ function Clinics() {
 
   // Handlers -----------------------------------------
   const handleAdd = (clinic) => {
-    clinic.ClinicID = Math.floor(10000 * Math.random());
-    setClinics([...clinics, clinic]);
-    console.log(`Length of clinics: ${clinics.length}`);
+    setShowForm(true);
+  };
+
+  const handleCancel = (clinic) => {
+    setShowForm(false);
   };
 
   // View ---------------------------------------------
@@ -55,11 +57,11 @@ function Clinics() {
           <Action.Add
             showText
             buttonText="Add new clinic location"
-            onClick={() => setShowForm(true)}
+            onClick={handleAdd}
           />
         </Action.Tray>
       ) : (
-        <ClinicForm onCancel={() => setShowForm(false)} />
+        <ClinicForm onCancel={handleCancel} />
       )}
 
       {!clinics ? (
