@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
+import Action from "../UI/Actions.jsx";
+import ClinicForm from "../entity/Clinic/ClinicForm.jsx";
 import { CardContainer, Card } from "../UI/Card.jsx";
 import "./Clinics.scss";
 
 // Initialisation -----------------------------------
 
 function Clinics() {
-
-
   // Initialisation -----------------------------------
   const newClinic = {
     ClinicID: 0,
@@ -21,12 +21,13 @@ function Clinics() {
       "https://images.freeimages.com/images/small-previews/9b8/electronic-components-2-1242738.jpg",
   };
 
-
   const apiURL = "https://softwarehub.uk/unibase/traveljabs/v1/api";
   const myGroupEndpoint = `${apiURL}/clinics`;
 
   // State --------------------------------------------
   const [clinics, setClinics] = useState(null);
+  const [showForm, setShowForm] = useState(false);
+
   const apiGet = async (endpoint) => {
     const response = await fetch(endpoint);
     const result = await response.json();
@@ -48,6 +49,14 @@ function Clinics() {
   return (
     <>
       <h1>Clinics</h1>
+
+      {!showForm ? (
+        <Action.Tray>
+          <Action.Add showText buttonText="Add new clinic location" />
+        </Action.Tray>
+      ) : (
+        <ClinicForm />
+      )}
 
       {!clinics ? (
         <p>Loading records ...</p>
@@ -74,8 +83,6 @@ function Clinics() {
               );
             })}
           </CardContainer>
-
-          <button onClick={() => handleAdd({ ...newClinic })}>Add clinic</button>
         </>
       )}
     </>
