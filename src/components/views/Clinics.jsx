@@ -52,10 +52,14 @@ function Clinics() {
 
       {!showForm ? (
         <Action.Tray>
-          <Action.Add showText buttonText="Add new clinic location" />
+          <Action.Add
+            showText
+            buttonText="Add new clinic location"
+            onClick={() => setShowForm(true)}
+          />
         </Action.Tray>
       ) : (
-        <ClinicForm />
+        <ClinicForm onCancel={() => setShowForm(false)} />
       )}
 
       {!clinics ? (
