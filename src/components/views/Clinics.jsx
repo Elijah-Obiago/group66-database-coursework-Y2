@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
+import Action from "../UI/Actions.jsx";
+import ClinicForm from "../entity/Clinic/ClinicForm.jsx";
 import { CardContainer, Card } from "../UI/Card.jsx";
 import "./Clinics.scss";
+import Spacer from "../UI/Spacer.jsx";
 
 // Initialisation -----------------------------------
 
 function Clinics() {
-
-
   // Initialisation -----------------------------------
   const newClinic = {
     ClinicID: 0,
@@ -21,12 +22,13 @@ function Clinics() {
       "https://images.freeimages.com/images/small-previews/9b8/electronic-components-2-1242738.jpg",
   };
 
-
   const apiURL = "https://softwarehub.uk/unibase/traveljabs/v1/api";
   const myGroupEndpoint = `${apiURL}/clinics`;
 
   // State --------------------------------------------
   const [clinics, setClinics] = useState(null);
+  const [showForm, setShowForm] = useState(false);
+
   const apiGet = async (endpoint) => {
     const response = await fetch(endpoint);
     const result = await response.json();
@@ -39,9 +41,11 @@ function Clinics() {
 
   // Handlers -----------------------------------------
   const handleAdd = (clinic) => {
-    clinic.ClinicID = Math.floor(10000 * Math.random());
-    setClinics([...clinics, clinic]);
-    console.log(`Length of clinics: ${clinics.length}`);
+    setShowForm(true);
+  };
+
+  const handleCancel = (clinic) => {
+    setShowForm(false);
   };
 
   // View ---------------------------------------------
@@ -49,35 +53,47 @@ function Clinics() {
     <>
       <h1>Clinics</h1>
 
-      {!clinics ? (
-        <p>Loading records ...</p>
-      ) : (
-        <>
-          <CardContainer>
-            {clinics.map((clinic) => {
-              return (
-                <div className="clinicCard" key={clinic.ClinicID}>
-                  <Card>
-                    <p>{clinic.ClinicName}</p>
-                    <p>{clinic.ClinicPostcode}</p>
-                    <img
-                      src={clinic.ClinicImageURL ?? newClinic.ClinicImageURL}
-                      alt={clinic.ClinicName}
-                    />
-                    <p>{clinic.ClinicContact}</p>
-                    <p>
-                      {clinic.ClinicManagerFirstname}{" "}
-                      {clinic.ClinicManagerLastname}
-                    </p>
-                  </Card>
-                </div>
-              );
-            })}
-          </CardContainer>
+      <Spacer>
+        {!showForm ? (
+          <Action.Tray>
+            <Action.Add
+              showText
+              buttonText="Add new clinic location"
+              onClick={handleAdd}
+            />
+          </Action.Tray>
+        ) : (
+          <ClinicForm onCancel={handleCancel} />
+        )}
 
-          <button onClick={() => handleAdd({ ...newClinic })}>Add clinic</button>
-        </>
-      )}
+        {!clinics ? (
+          <p>Loading records ...</p>
+        ) : (
+          <>
+            <CardContainer>
+              {clinics.map((clinic) => {
+                return (
+                  <div className="clinicCard" key={clinic.ClinicID}>
+                    <Card>
+                      <p>{clinic.ClinicName}</p>
+                      <p>{clinic.ClinicPostcode}</p>
+                      <img
+                        src={clinic.ClinicImageURL ?? newClinic.ClinicImageURL}
+                        alt={clinic.ClinicName}
+                      />
+                      <p>{clinic.ClinicContact}</p>
+                      <p>
+                        {clinic.ClinicManagerFirstname}{" "}
+                        {clinic.ClinicManagerLastname}
+                      </p>
+                    </Card>
+                  </div>
+                );
+              })}
+            </CardContainer>
+          </>
+        )}
+      </Spacer>
     </>
   );
 }
