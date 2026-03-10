@@ -6,8 +6,7 @@ const Spacer = ({ children }) => {
   //Handlers -----------------------------------
   //View ---------------------------------------
 
-  return;
-  <div className="spacer">{children}</div>;
+  return <div className="spacer">{children}</div>;
 };
 
 export default Spacer;
