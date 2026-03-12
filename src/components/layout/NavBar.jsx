@@ -25,10 +25,6 @@ function NavBar() {
       </div>
 
       <div className="navItem">
-        <NavLink to="/appviews">App Views</NavLink>
-      </div>
-
-      <div className="navItem">
         <NavLink to="/settings">Settings</NavLink>
       </div>
     </nav>
