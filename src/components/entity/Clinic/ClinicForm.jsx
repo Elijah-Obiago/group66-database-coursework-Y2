@@ -13,7 +13,7 @@ const initialClinic = {
   ClinicImageURL: "https://images.freeimages.com/images/small-previews/9b8/electronic-components-2-1242738.jpg",
 };
 
-const ClinicForm = ({ onCancel }) => {
+const ClinicForm = ({onSubmit, onCancel }) => {
   //Initialisation --------------------------------------
   const conformance = {
     js2html: {
@@ -65,7 +65,7 @@ const ClinicForm = ({ onCancel }) => {
     setClinic({ ...clinic, [name]: conformance.html2js[name](value) });
   };
 
-  const handleSubmit = () => alert(JSON.stringify(clinic));
+  const handleSubmit = () => onSubmit(clinic);
   // View --------------------------------------------
   return (
     <div className="clinicForm">
