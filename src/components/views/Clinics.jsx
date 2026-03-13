@@ -76,6 +76,7 @@ function Clinics() {
     else alert('Submission unsuccessful: ${result.message}')
   };
 
+  
   // View ---------------------------------------------
   return (
     <>
