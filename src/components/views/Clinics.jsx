@@ -24,6 +24,7 @@ function Clinics() {
 
   const apiURL = "https://softwarehub.uk/unibase/traveljabs/v1/api";
   const myGroupEndpoint = `${apiURL}/clinics`;
+  const postMyGroupEndpoint = `${apiURL}/clinics`;
 
   // State --------------------------------------------
   const [clinics, setClinics] = useState(null);
@@ -39,6 +40,24 @@ function Clinics() {
     apiGet(myGroupEndpoint);
   }, [myGroupEndpoint]);
 
+  const apiPost = async (endpoint,record) => {
+    //Request
+    const request ={
+      method: 'POST',
+      body: JSON.stringify(record),
+      headers: {'Content-Type': 'application/json'},
+    }
+
+    //Fetch
+    const response = await fetch(endpoint,request);
+    const result = await response.json();
+    setClinics(result);
+
+    return (response.status >= 200 && response.status < 300) 
+    ? {isSuccess: true,} 
+    : {isSuccess: false, message: result.message,};
+  };
+
   // Handlers -----------------------------------------
   const handleAdd = (clinic) => {
     setShowForm(true);
@@ -48,6 +67,16 @@ function Clinics() {
     setShowForm(false);
   };
 
+  const handleSubmit = async (clinic) => {
+    const result = await apiPost(postMyGroupEndpoint, clinic);
+    if (result.isSuccess) {
+      setShowForm(false);
+      apiGet(myGroupEndpoint);
+    }
+    else alert('Submission unsuccessful: ${result.message}')
+  };
+
+  
   // View ---------------------------------------------
   return (
     <>
@@ -63,7 +92,7 @@ function Clinics() {
             />
           </Action.Tray>
         ) : (
-          <ClinicForm onCancel={handleCancel} />
+          <ClinicForm onSubmit={handleSubmit} onCancel={handleCancel} />
         )}
 
         {!clinics ? (
