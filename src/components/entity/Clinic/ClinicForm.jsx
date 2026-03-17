@@ -4,7 +4,6 @@ import Spacer from "../../UI/Spacer.jsx";
 import "./ClinicForm.scss";
 
 const initialClinic = {
-  ClinicID: 0,
   ClinicName: "",
   ClinicPostcode: "",
   ClinicAddress: "",
