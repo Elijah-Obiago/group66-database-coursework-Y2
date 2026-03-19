@@ -51,7 +51,7 @@ function Clinics() {
     //Fetch
     const response = await fetch(endpoint,request);
     const result = await response.json();
-    setClinics(result);
+    //setClinics(result);
 
     return (response.status >= 200 && response.status < 300) 
     ? {isSuccess: true,} 
@@ -73,7 +73,7 @@ function Clinics() {
       setShowForm(false);
       apiGet(myGroupEndpoint);
     }
-    else alert('Submission unsuccessful: ${result.message}')
+    else alert(`Submission unsuccessful: ${result.message}`)
   };
 
   
