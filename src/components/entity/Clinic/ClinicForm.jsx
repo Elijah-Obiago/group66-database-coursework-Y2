@@ -7,21 +7,21 @@ const initialClinic = {
   ClinicID: null,
   ClinicName: null,
   ClinicPostcode: null,
-  ClinicAddressID: null,
-  ClinicContactID: null,
+  ClinicAddress: null,
+  ClinicContact: null,
   ClinicManagerID: null,
   ClinicImageURL: "https://images.freeimages.com/images/small-previews/9b8/electronic-components-2-1242738.jpg",
 };
 
-const ClinicForm = ({onSubmit, onCancel }) => {
+const ClinicForm = ({ onSubmit, onCancel }) => {
   //Initialisation --------------------------------------
   const conformance = {
     js2html: {
       ClinicID: (value) => (value === null ? "0" : value),
       ClinicName: (value) => (value === null) ? '' : value,
       ClinicPostcode: (value) => (value === null) ? '' : value,
-      ClinicAddressID: (value) => (value === null) ? '0' : value,
-      ClinicContactID: (value) => (value === null) ? '0' : value,
+      ClinicAddress: (value) => (value === null) ? '' : value,
+      ClinicContact: (value) => (value === null) ? '' : value,
       ClinicManagerID: (value) => (value === null) ? '0' : value,
       ClinicImageURL: (value) => (value === null) ? '' : value,
     },
@@ -29,8 +29,8 @@ const ClinicForm = ({onSubmit, onCancel }) => {
       ClinicID: (value) => (value === null ? null : value),
       ClinicName: (value) => (value === '' ? null : value),
       ClinicPostcode: (value) => (value === '' ? null : value),
-      ClinicAddressID: (value) => (value === '0' ? null : value),
-      ClinicContactID: (value) => (value === '0' ? null : value),
+      ClinicAddress: (value) => (value === '' ? null : value),
+      ClinicContact: (value) => (value === '' ? null : value),
       ClinicManagerID: (value) => (value === '0' ? null : value),
       ClinicImageURL: (value) => (value === '' ? null : value),
     },
@@ -93,48 +93,22 @@ const ClinicForm = ({onSubmit, onCancel }) => {
 
           <label>
             Clinic Address
-            {!clinics ? (
-              <p>Loading records ...</p>
-            ) : (
-              <select
-                name="ClinicAddressID"
-                value={conformance.js2html.ClinicAddressID(clinic.ClinicAddressID)}
-                onChange={handleChange}
-              >
-                <option value="0" hidden>
-                  No address selected
-                </option>
-
-                {clinics.map((item) => (
-                  <option key={item.ClinicID} value={item.ClinicID}>
-                    {item.ClinicAddress}
-                  </option>
-                ))}
-              </select>
-            )}
+            <input
+              type="text"
+              name="ClinicAddress"
+              value={conformance.js2html.ClinicAddress(clinic.ClinicAddress)}
+              onChange={handleChange}
+            />
           </label>
 
           <label>
             Clinic Contact
-            {!clinics ? (
-              <p>Loading records ...</p>
-            ) : (
-              <select
-                name="ClinicContactID"
-                value={conformance.js2html.ClinicContactID(clinic.ClinicContactID)}
-                onChange={handleChange}
-              >
-                <option value="0" hidden>
-                  No contact selected
-                </option>
-
-                {clinics.map((item) => (
-                  <option key={item.ClinicID} value={item.ClinicID}>
-                    {item.ClinicContact}
-                  </option>
-                ))}
-              </select>
-            )}
+            <input
+              type="text"
+              name="ClinicContact"
+              value={conformance.js2html.ClinicContact(clinic.ClinicContact)}
+              onChange={handleChange}
+            />
           </label>
 
           <label>
