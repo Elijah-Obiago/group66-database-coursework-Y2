@@ -23,8 +23,8 @@ function Clinicians() {
   };
 
   const apiURL = "https://softwarehub.uk/unibase/traveljabs/v1/api";
-  const myGroupEndpoint = `${apiURL}/staff/clinics/1/clinicians`;
-  const postMyGroupEndpoint = `${apiURL}/staff/clinics/1/clinicians`;
+  const myGroupEndpoint = `${apiURL}/staff`;
+  const postMyGroupEndpoint = `${apiURL}/staff`;
 
   // State --------------------------------------------
   const [clinicians, setClinicians] = useState(null);
