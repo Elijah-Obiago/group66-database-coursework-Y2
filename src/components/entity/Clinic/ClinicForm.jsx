@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
+import useLoad from "../../api/useLoad.js";
+import apiURL from '../../api/apiURL.js';
+import API from "../../api/API.js";
 import Action from "../../UI/Actions.jsx";
 import Spacer from "../../UI/Spacer.jsx";
 import "./ClinicForm.scss";
+import useLoad from "../../api/useLoad.js";
 
 const initialClinic = {
   ClinicID: null,
@@ -36,28 +40,14 @@ const ClinicForm = ({ onSubmit, onCancel }) => {
     },
   };
 
-  const apiURL = "https://softwarehub.uk/unibase/traveljabs/v1/api";
+
   const clinicsEndpoint = `${apiURL}/clinics`;
   const staffEndpoint = `${apiURL}/staff`;
 
   // State -----------------------------------------------
   const [clinic, setClinic] = useState(initialClinic);
-  const [clinics, setClinics] = useState(null);
-  const [staff, setStaff] = useState(null);
-
-  const apiGET = async (endpoint, setState) => {
-    const response = await fetch(endpoint);
-    const result = await response.json();
-    setState(result);
-  };
-
-  useEffect(() => {
-    apiGET(clinicsEndpoint, setClinics);
-  }, [clinicsEndpoint]);
-
-  useEffect(() => {
-    apiGET(staffEndpoint, setStaff);
-  }, [staffEndpoint]);
+  const [clinics, loadingClinicsMessage,] = useLoad(clinicsEndpoint);
+  const [staff, loadingStaffMessage,] = useLoad(staffEndpoint);
 
   // Handlers -----------------------------------------
   const handleChange = (event) => {
@@ -114,7 +104,7 @@ const ClinicForm = ({ onSubmit, onCancel }) => {
           <label>
             Clinic Manager
             {!staff ? (
-              <p>Loading records ...</p>
+              <p>{loadingStaffMessage}</p>
             ) : (
               <select
                 name="ClinicManagerID"
