@@ -96,6 +96,32 @@ function ClinicianForm({ onSubmit, onCancel }) {
             value={conformance.js2html.StaffLastname(clinician.StaffLastname)}
             onChange={handleChange}
           />
+          <label htmlFor="StaffRoleID">Role:</label>
+          <select
+            id="StaffRoleID"
+            name="StaffRoleID"
+            value={conformance.js2html.StaffRoleID(clinician.StaffRoleID)}
+            onChange={handleChange}
+          >
+            <option value="0">Select a role</option>
+            <option value="1">Clinician</option>
+            <option value="2">Manager</option>
+          </select>
+          <label htmlFor="StaffClinicID">Clinic:</label>
+          <select
+            id="StaffClinicID"
+            name="StaffClinicID"
+            value={conformance.js2html.StaffClinicID(clinician.StaffClinicID)}
+            onChange={handleChange}
+          >
+            <option value="0">Select a clinic</option>
+            {clinics?.map((clinic) => (
+              <option key={clinic.ClinicID} value={clinic.ClinicID}>
+                {clinic.ClinicName}
+              </option>
+            ))}
+          </select>
+
           <label htmlFor="StaffImageURL">Image URL:</label>
           <input
             type="text"
