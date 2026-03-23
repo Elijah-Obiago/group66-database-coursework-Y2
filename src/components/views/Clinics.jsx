@@ -1,4 +1,3 @@
-import { useState } from "react";
 import useLoad from "../api/useLoad.js";
 import apiURL from '../api/apiURL.js';
 import API from '../api/API.js';
@@ -6,7 +5,9 @@ import Action from "../UI/Actions.jsx";
 import ClinicForm from "../entity/Clinic/ClinicForm.jsx";
 import { CardContainer, Card } from "../UI/Card.jsx";
 import "./Clinics.scss";
+import { Modal, useModal } from "../UI/Modal.jsx";
 import Spacer from "../UI/Spacer.jsx";
+import { useModal } from "../UI/Modal.jsx";
 
 // Initialisation -----------------------------------
 
@@ -30,22 +31,14 @@ function Clinics() {
   const postMyGroupEndpoint = `${apiURL}/clinics`;
 
   // State --------------------------------------------
-  const [showForm, setShowForm] = useState(false);
   const [clinics, loadingMessage, loadClinics] = useLoad(myGroupEndpoint);
-
+  const [isFormOpen, openForm, closeForm] = useModal(false);
+  
   // Handlers -----------------------------------------
-  const handleAdd = (clinic) => {
-    setShowForm(true);
-  };
-
-  const handleCancel = (clinic) => {
-    setShowForm(false);
-  };
-
   const handleSubmit = async (clinic) => {
     const result = await API.post(postMyGroupEndpoint, clinic);
     if (result.isSuccess) {
-      setShowForm(false);
+      closeForm();
       loadClinics(myGroupEndpoint);
     }
     else alert(`Submission unsuccessful: ${result.message}`)
@@ -57,18 +50,19 @@ function Clinics() {
     <>
       <h1>Clinics</h1>
 
+      {isFormOpen && (
+      <Modal title='Add new clinic location'>
+        <ClinicForm onSubmit={handleSubmit} onCancel={closeForm} />
+      </Modal>
+      )}
       <Spacer>
-        {!showForm ? (
           <Action.Tray>
             <Action.Add
               showText
               buttonText="Add new clinic location"
-              onClick={handleAdd}
+              onClick={openForm}
             />
           </Action.Tray>
-        ) : (
-          <ClinicForm onSubmit={handleSubmit} onCancel={handleCancel} />
-        )}
 
         {!clinics ? (
           <p>{loadingMessage}</p>
