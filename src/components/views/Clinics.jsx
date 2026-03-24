@@ -6,6 +6,7 @@ import ClinicForm from "../entity/Clinic/ClinicForm.jsx";
 import { CardContainer, Card } from "../UI/Card.jsx";
 import "./Clinics.scss";
 import { Modal, useModal } from "../UI/Modal.jsx";
+import { Alert, Error, useAlert } from "../UI/Alert.jsx";
 import Spacer from "../UI/Spacer.jsx";
 import { useModal } from "../UI/Modal.jsx";
 
@@ -33,6 +34,8 @@ function Clinics() {
   // State --------------------------------------------
   const [clinics, loadingMessage, loadClinics] = useLoad(myGroupEndpoint);
   const [isFormOpen, openForm, closeForm] = useModal(false);
+  const [isAlertOpen, alertMessage, openAlert, closeAlert] = useAlert();
+  const [isErrorOpen, errorMessage, openError, closeError] = useAlert();
   
   // Handlers -----------------------------------------
   const handleSubmit = async (clinic) => {
@@ -40,8 +43,8 @@ function Clinics() {
     if (result.isSuccess) {
       closeForm();
       loadClinics(myGroupEndpoint);
-    }
-    else alert(`Submission unsuccessful: ${result.message}`)
+      openAlert('Submission successful')
+    } else openError(`Submission unsuccessful: ${result.message}`)
   };
 
   
@@ -55,6 +58,10 @@ function Clinics() {
         <ClinicForm onSubmit={handleSubmit} onCancel={closeForm} />
       </Modal>
       )}
+
+      {isAlertOpen && <Alert message = {alertMessage}onDismiss = {closeAlert}/>}
+      {isErrorOpen && <Error message = {errorMessage}onDismiss = {closeError}/>}
+
       <Spacer>
           <Action.Tray>
             <Action.Add

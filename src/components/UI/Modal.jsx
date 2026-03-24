@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./Modal.scss";
 
-export const Modal = ({title, children}) => {
+export const Modal = ({title, headerColor,children}) => {
   //Initialisation ----------------------------
   //State --------------------------------------
   //Handlers -----------------------------------
@@ -10,14 +10,14 @@ export const Modal = ({title, children}) => {
   return (
     <div className='ModalOverlay'>
         <div className='ModalPane'>
-            <header>
+            <header style = {{backgroundColor: headerColor}}>
               <p>{title}</p>
             </header>
             <main>{children}</main>
         </div>
     </div>
   );
-}
+};
 
 export const useModal = (initialState) => {
   //State --------------------------------------
@@ -30,4 +30,4 @@ export const useModal = (initialState) => {
   //Return ---------------------------------------
   return [isOpen, open, close];
 
-}
+};

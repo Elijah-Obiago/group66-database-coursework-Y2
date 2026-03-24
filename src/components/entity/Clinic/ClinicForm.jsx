@@ -3,6 +3,7 @@ import useLoad from "../../api/useLoad.js";
 import apiURL from '../../api/apiURL.js';
 import API from "../../api/API.js";
 import Action from "../../UI/Actions.jsx";
+import {Confirm, useAlert} from '../../UI/Alert.jsx'
 import Spacer from "../../UI/Spacer.jsx";
 import "./ClinicForm.scss";
 import useLoad from "../../api/useLoad.js";
@@ -48,6 +49,7 @@ const ClinicForm = ({ onSubmit, onCancel }) => {
   const [clinic, setClinic] = useState(initialClinic);
   const [clinics, loadingClinicsMessage,] = useLoad(clinicsEndpoint);
   const [staff, loadingStaffMessage,] = useLoad(staffEndpoint);
+  const [isConfirmOpen, confirmMessage, openConfirm, closeConfirm] = useAlert();
 
   // Handlers -----------------------------------------
   const handleChange = (event) => {
@@ -59,6 +61,9 @@ const ClinicForm = ({ onSubmit, onCancel }) => {
   // View --------------------------------------------
   return (
     <div className="clinicForm">
+
+      { isConfirmOpen && <Confirm message={confirmMessage} onDismiss={closeConfirm} onConfirm={handleSubmit}/>}
+
       <Spacer>
         <div className="FormTray">
           <label>
@@ -135,7 +140,7 @@ const ClinicForm = ({ onSubmit, onCancel }) => {
           </label>
         </div>
         <Action.Tray>
-          <Action.Submit showText buttonText="Submit" onClick={handleSubmit} />
+          <Action.Submit showText buttonText="Submit" onClick={() => openConfirm('Are you sure you want to submit?')} />
           <Action.Cancel showText buttonText="Cancel form" onClick={onCancel} />
         </Action.Tray>
       </Spacer>
