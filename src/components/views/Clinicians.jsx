@@ -1,3 +1,6 @@
+import { useAuth } from "../auth/authContext.jsx";
+import API from "../api/API.js";
+import apiURL from "../api/apiURL.js";
 import "./Home.scss";
 import Spacer from "../UI/Spacer.jsx";
 import { useState, useEffect } from "react";
@@ -6,25 +9,14 @@ import Action from "../UI/Actions.jsx";
 import { CardContainer, Card } from "../UI/Card.jsx";
 import ClinicianForm from "../entity/Clinic/ClinicianForm.jsx";
 
-// Initialisation -----------------------------------
-
-function Clinicians() {
-  const newClinician = {
-    StaffID: 0,
-    StaffFirstname: "New",
-    StaffLastname: "Clinician",
-    StaffRoleID: 0,
-    StaffClinicID: 0,
-    StaffRoleName: "Clinician",
-    StaffClinicName: "TravelJabs New Clinic",
-    StaffImageURL:
-      "https://images.freeimages.com/images/small-previews/9b8/electronic-components-2-1242738.jpg",
-    StaffContact: "01234567890",
-  };
-
-  const apiURL = "https://softwarehub.uk/unibase/traveljabs/v1/api";
-  const myGroupEndpoint = `${apiURL}/staff`;
-  const postMyGroupEndpoint = `${apiURL}/staff`;
+const Clinicians = () => {
+  // Initialisation -----------------------------------
+  const { loggedInUser } = useAuth();
+  const clinicianEnpoint =
+    loggedInUser && loggedInUser.StaffRoleName === "Clinician"
+      ? `${apiURL}/staff/clinics/${loggedInUser.StaffClinicID}`
+      : `${apiURL}/staff`;
+  const postClinicianEndpoint = `${apiURL}/staff`;
 
   // State --------------------------------------------
   const [clinicians, setClinicians] = useState(null);
@@ -37,8 +29,8 @@ function Clinicians() {
   };
 
   useEffect(() => {
-    apiGet(myGroupEndpoint);
-  }, [myGroupEndpoint]);
+    apiGet(clinicianEnpoint);
+  }, [clinicianEnpoint]);
 
   const apiPost = async (endpoint, record) => {
     //Request
@@ -68,10 +60,10 @@ function Clinicians() {
   };
 
   const handleSubmit = async (clinician) => {
-    const result = await apiPost(postMyGroupEndpoint, clinician);
+    const result = await apiPost(postClinicianEndpoint, clinician);
     if (result.isSuccess) {
       setShowForm(false);
-      apiGet(myGroupEndpoint);
+      apiGet(clinicianEnpoint);
     } else alert(`Submission unsuccessful: ${result.message}`);
   };
 
@@ -108,7 +100,8 @@ function Clinicians() {
                       <p>{clinician.StaffRoleName}</p>
                       <img
                         src={
-                          clinician.StaffImageURL ?? newClinician.StaffImageURL
+                          clinician.StaffImageURL ??
+                          "https://images.freeimages.com/images/small-previews/9b8/electronic-components-2-1242738.jpg"
                         }
                         alt={clinician.StaffFirstname}
                       />
@@ -123,6 +116,6 @@ function Clinicians() {
       </Spacer>
     </>
   );
-}
+};
 
 export default Clinicians;

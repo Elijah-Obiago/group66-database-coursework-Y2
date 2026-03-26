@@ -4,21 +4,32 @@ import Action from "../UI/Actions.jsx";
 import "./Login.scss";
 
 const patient = {
-  UserID: 0,
-  UserFirstname: "Timur",
-  UserUserType: 1,
+  PatientID: 1,
+  PatientFirstname: "Oliver",
+  PatientLastname: "Hayes",
+  PatientAddress: "14 North Street, Canterbury, Kent",
+  PatientPostcode: "CT1 2JS",
+  PatientAge: 34,
 };
 
 const staff = {
-  UserID: 0,
-  UserFirstname: "Yousef",
-  UserUserType: 2,
+  StaffID: 31,
+  StaffFirstname: "Hamza",
+  StaffLastname: "Farid",
+  StaffRoleID: 2,
+  StaffClinicID: 9,
+  StaffRoleName: "Clinician",
+  StaffClinicName: "TravelJabs Milton Keynes",
 };
 
 const manager = {
-  UserID: 0,
-  UserFirstname: "Elijah",
-  UserUserType: 3,
+  StaffID: 57,
+  StaffFirstname: "Ibrahim ",
+  StaffLastname: "Pibrahim",
+  StaffRoleID: 1,
+  StaffClinicID: 10,
+  StaffRoleName: "Manager",
+  StaffClinicName: "TravelJabs Oxford",
 };
 
 const Login = () => {

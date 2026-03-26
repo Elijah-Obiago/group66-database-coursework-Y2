@@ -23,8 +23,8 @@ function Clinics() {
   };
 
   const apiURL = "https://softwarehub.uk/unibase/traveljabs/v1/api";
-  const myGroupEndpoint = `${apiURL}/clinics`;
-  const postMyGroupEndpoint = `${apiURL}/clinics`;
+  const myClinicEndpoint = `${apiURL}/clinics`;
+  const postClinicEndpoint = `${apiURL}/clinics`;
 
   // State --------------------------------------------
   const [clinics, setClinics] = useState(null);
@@ -37,25 +37,25 @@ function Clinics() {
   };
 
   useEffect(() => {
-    apiGet(myGroupEndpoint);
-  }, [myGroupEndpoint]);
+    apiGet(myClinicEndpoint);
+  }, [myClinicEndpoint]);
 
-  const apiPost = async (endpoint,record) => {
+  const apiPost = async (endpoint, record) => {
     //Request
-    const request ={
-      method: 'POST',
+    const request = {
+      method: "POST",
       body: JSON.stringify(record),
-      headers: {'Content-Type': 'application/json'},
-    }
+      headers: { "Content-Type": "application/json" },
+    };
 
     //Fetch
-    const response = await fetch(endpoint,request);
+    const response = await fetch(endpoint, request);
     const result = await response.json();
     //setClinics(result);
 
-    return (response.status >= 200 && response.status < 300) 
-    ? {isSuccess: true,} 
-    : {isSuccess: false, message: result.message,};
+    return response.status >= 200 && response.status < 300
+      ? { isSuccess: true }
+      : { isSuccess: false, message: result.message };
   };
 
   // Handlers -----------------------------------------
@@ -68,15 +68,13 @@ function Clinics() {
   };
 
   const handleSubmit = async (clinic) => {
-    const result = await apiPost(postMyGroupEndpoint, clinic);
+    const result = await apiPost(postClinicEndpoint, clinic);
     if (result.isSuccess) {
       setShowForm(false);
-      apiGet(myGroupEndpoint);
-    }
-    else alert(`Submission unsuccessful: ${result.message}`)
+      apiGet(myClinicEndpoint);
+    } else alert(`Submission unsuccessful: ${result.message}`);
   };
 
-  
   // View ---------------------------------------------
   return (
     <>
