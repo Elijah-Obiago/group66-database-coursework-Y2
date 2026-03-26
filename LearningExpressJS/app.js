@@ -9,8 +9,9 @@ const app = new express();
 
 // Controllers ----------------------------------------
 const clinicsController = async (req, res) => {
-    const table = "Clinics";
-    const fields = [
+    // Initialisations
+    let table = "Clinics";
+    let fields = [
         "ClinicID",
         "ClinicName",
         "ClinicAddress",
@@ -18,7 +19,14 @@ const clinicsController = async (req, res) => {
         "ClinicContact",
         "ClinicManagerID",
     ];
+    // Resolve foreign keys
+    table = `${table} LEFT JOIN Staff ON ClinicManagerID = StaffID`;
+    fields = [
+        ...fields,
+        "CONCAT(StaffFirstname, ' ', StaffLastname) AS ClinicManagerName"
+    ];
 
+    // Build and execute query
     const sql = `SELECT ${fields} FROM ${table}`;
 
     try {
