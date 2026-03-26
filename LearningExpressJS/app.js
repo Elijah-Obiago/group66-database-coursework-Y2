@@ -1,6 +1,6 @@
 // Imports --------------------------------------------
 import express from "express";
-
+import database from "./database.js";
 // Configure express app -------------------------------
 const app = new express();
 
@@ -8,34 +8,41 @@ const app = new express();
 
 
 // Controllers ----------------------------------------
-const helloController = (req, res) => {
-  res.send("Hi! This is my server");
-};
+const clinicsController = async (req, res) => {
+    const table = "Clinics";
+    const fields = [
+        "ClinicID",
+        "ClinicName",
+        "ClinicAddress",
+        "ClinicPostcode",
+        "ClinicContact",
+        "ClinicManagerID",
+    ];
 
-const addController = (req, res) => {
-  const var1 = req.params.var1;
-  const var2 = req.params.var2;
+    const sql = `SELECT ${fields} FROM ${table}`;
 
-  const result = {
-    operation: "addition",
-    operand1: var1,
-    operand2: var2,
-    result: parseInt(var1) + parseInt(var2),
-    message: "Have a great day!",
-  };
+    try {
+        const [result] = await database.query(sql);
 
-  res.json(result);
+        if (result.length === 0) {
+            res.status(404).json({ message: "No record(s) found" });
+        } else {
+            res.status(200).json(result);
+        }
+    } catch (error) {
+        res
+            .status(500)
+            .json({ message: `Failed to execute query: ${error.message}` });
+    }
 };
 
 
 // Endpoints -------------------------------------------
-app.get("/hello", helloController);
-app.get("/add/:var1/:var2", addController);
-
+app.get("/api/clinics", clinicsController);
 
 // Start server ----------------------------------------
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`);
+    console.log(`Server started on port ${PORT}`);
 });
