@@ -1,3 +1,4 @@
+import React, { createContext } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./components/auth/authContext.jsx";
 import Home from "./components/views/Home.jsx";

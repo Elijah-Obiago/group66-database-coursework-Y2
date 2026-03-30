@@ -27,6 +27,42 @@ function Clinics() {
       "https://images.freeimages.com/images/small-previews/9b8/electronic-components-2-1242738.jpg",
   };
 
+  const apiURL = "https://softwarehub.uk/unibase/traveljabs/v1/api";
+  const myClinicEndpoint = `${apiURL}/clinics`;
+  const postClinicEndpoint = `${apiURL}/clinics`;
+
+  // State --------------------------------------------
+  const [clinics, setClinics] = useState(null);
+  const [showForm, setShowForm] = useState(false);
+
+  const apiGet = async (endpoint) => {
+    const response = await fetch(endpoint);
+    const result = await response.json();
+    setClinics(result);
+  };
+
+  useEffect(() => {
+    apiGet(myClinicEndpoint);
+  }, [myClinicEndpoint]);
+
+  const apiPost = async (endpoint, record) => {
+    //Request
+    const request = {
+      method: "POST",
+      body: JSON.stringify(record),
+      headers: { "Content-Type": "application/json" },
+    };
+
+    //Fetch
+    const response = await fetch(endpoint, request);
+    const result = await response.json();
+    //setClinics(result);
+
+    return response.status >= 200 && response.status < 300
+      ? { isSuccess: true }
+      : { isSuccess: false, message: result.message };
+  };
+
 
   const myGroupEndpoint = `${apiURL}/clinics`;
   const postMyGroupEndpoint = `${apiURL}/clinics`;
@@ -39,6 +75,11 @@ function Clinics() {
   
   // Handlers -----------------------------------------
   const handleSubmit = async (clinic) => {
+    const result = await apiPost(postClinicEndpoint, clinic);
+    if (result.isSuccess) {
+      setShowForm(false);
+      apiGet(myClinicEndpoint);
+    } else alert(`Submission unsuccessful: ${result.message}`);
     const result = await API.post(postMyGroupEndpoint, clinic);
     if (result.isSuccess) {
       closeForm();
@@ -47,7 +88,6 @@ function Clinics() {
     } else openError(`Submission unsuccessful: ${result.message}`)
   };
 
-  
   // View ---------------------------------------------
   return (
     <>
