@@ -1,11 +1,16 @@
-import { useState, useEffect } from "react";
+import useLoad from "../api/useLoad.js";
+import apiURL from "../api/apiURL.js";
+import API from "../api/API.js";
 import { useAuth } from "../auth/authContext.jsx";
 import apiURL from "../api/apiURL.js";
 import Action from "../UI/Actions.jsx";
 import ClinicForm from "../entity/Clinic/ClinicForm.jsx";
 import { CardContainer, Card } from "../UI/Card.jsx";
 import "./Clinics.scss";
+import { Modal, useModal } from "../UI/Modal.jsx";
+import { Alert, Error, useAlert } from "../UI/Alert.jsx";
 import Spacer from "../UI/Spacer.jsx";
+import { useModal } from "../UI/Modal.jsx";
 
 // Initialisation -----------------------------------
 
@@ -52,27 +57,43 @@ const Clinics = () => {
       : { isSuccess: false, message: result.message };
   };
 
+  const myGroupEndpoint = `${apiURL}/clinics`;
+  const postMyGroupEndpoint = `${apiURL}/clinics`;
+
+  // State --------------------------------------------
+  const [clinics, loadingMessage, loadClinics] = useLoad(myGroupEndpoint);
+  const [isFormOpen, openForm, closeForm] = useModal(false);
+  const [isAlertOpen, alertMessage, openAlert, closeAlert] = useAlert();
+  const [isErrorOpen, errorMessage, openError, closeError] = useAlert();
+
   // Handlers -----------------------------------------
-  const handleAdd = (clinic) => {
-    setShowForm(true);
-  };
-
-  const handleCancel = (clinic) => {
-    setShowForm(false);
-  };
-
   const handleSubmit = async (clinic) => {
     const result = await apiPost(postClinicEndpoint, clinic);
     if (result.isSuccess) {
       setShowForm(false);
       apiGet(clinicEnpoint);
     } else alert(`Submission unsuccessful: ${result.message}`);
+    const result = await API.post(postMyGroupEndpoint, clinic);
+    if (result.isSuccess) {
+      closeForm();
+      loadClinics(myGroupEndpoint);
+      openAlert("Submission successful");
+    } else openError(`Submission unsuccessful: ${result.message}`);
   };
 
   // View ---------------------------------------------
   return (
     <>
       <h1>Clinics</h1>
+
+      {isFormOpen && (
+        <Modal title="Add new clinic location">
+          <ClinicForm onSubmit={handleSubmit} onCancel={closeForm} />
+        </Modal>
+      )}
+
+      {isAlertOpen && <Alert message={alertMessage} onDismiss={closeAlert} />}
+      {isErrorOpen && <Error message={errorMessage} onDismiss={closeError} />}
 
       <Spacer>
         {!showForm &&
@@ -82,7 +103,7 @@ const Clinics = () => {
             <Action.Add
               showText
               buttonText="Add new clinic location"
-              onClick={handleAdd}
+              onClick={openForm}
             />
           </Action.Tray>
         ) : showForm === true ? (
@@ -90,7 +111,7 @@ const Clinics = () => {
         ) : null}
 
         {!clinics ? (
-          <p>Loading records ...</p>
+          <p>{loadingMessage}</p>
         ) : (
           <>
             <CardContainer>
