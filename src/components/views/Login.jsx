@@ -13,23 +13,23 @@ const patient = {
 };
 
 const staff = {
-  StaffID: 31,
-  StaffFirstname: "Hamza",
-  StaffLastname: "Farid",
+  StaffID: 17,
+  StaffFirstname: "Hina",
+  StaffLastname: "Ahmed",
   StaffRoleID: 2,
-  StaffClinicID: 9,
+  StaffClinicID: 5,
   StaffRoleName: "Clinician",
-  StaffClinicName: "TravelJabs Milton Keynes",
+  StaffClinicName: "TravelJabs Crawley",
 };
 
 const manager = {
-  StaffID: 57,
-  StaffFirstname: "Ibrahim ",
-  StaffLastname: "Pibrahim",
+  StaffID: 1,
+  StaffFirstname: "Emma",
+  StaffLastname: "Collins",
   StaffRoleID: 1,
-  StaffClinicID: 10,
+  StaffClinicID: 1,
   StaffRoleName: "Manager",
-  StaffClinicName: "TravelJabs Oxford",
+  StaffClinicName: "TravelJabs Brighton",
 };
 
 const Login = () => {

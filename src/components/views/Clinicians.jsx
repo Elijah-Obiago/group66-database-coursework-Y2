@@ -12,10 +12,12 @@ import ClinicianForm from "../entity/Clinic/ClinicianForm.jsx";
 const Clinicians = () => {
   // Initialisation -----------------------------------
   const { loggedInUser } = useAuth();
-  const clinicianEnpoint =
+  const clinicianEndpoint =
     loggedInUser && loggedInUser.StaffRoleName === "Clinician"
       ? `${apiURL}/staff/clinics/${loggedInUser.StaffClinicID}`
-      : `${apiURL}/staff`;
+      : loggedInUser && loggedInUser.StaffRoleName === "Manager"
+        ? `${apiURL}/staff/clinics/${loggedInUser.StaffClinicID}`
+        : null;
   const postClinicianEndpoint = `${apiURL}/staff`;
 
   // State --------------------------------------------
@@ -25,12 +27,15 @@ const Clinicians = () => {
   const apiGet = async (endpoint) => {
     const response = await fetch(endpoint);
     const result = await response.json();
-    setClinicians(result);
+
+    Array.isArray(result) ? setClinicians(result) : setClinicians([result]);
   };
 
   useEffect(() => {
-    apiGet(clinicianEnpoint);
-  }, [clinicianEnpoint]);
+    if (clinicianEndpoint !== null) {
+      apiGet(clinicianEndpoint);
+    }
+  }, [clinicianEndpoint]);
 
   const apiPost = async (endpoint, record) => {
     //Request
@@ -43,7 +48,7 @@ const Clinicians = () => {
     //Fetch
     const response = await fetch(endpoint, request);
     const result = await response.json();
-    setClinicians(result);
+    //setClinicians(result);
 
     return response.status >= 200 && response.status < 300
       ? { isSuccess: true }
@@ -63,7 +68,7 @@ const Clinicians = () => {
     const result = await apiPost(postClinicianEndpoint, clinician);
     if (result.isSuccess) {
       setShowForm(false);
-      apiGet(clinicianEnpoint);
+      apiGet(clinicianEndpoint);
     } else alert(`Submission unsuccessful: ${result.message}`);
   };
 
@@ -73,7 +78,9 @@ const Clinicians = () => {
       <h2>Clinicians</h2>
 
       <Spacer>
-        {!showForm ? (
+        {!showForm &&
+        loggedInUser &&
+        loggedInUser.StaffRoleName === "Manager" ? (
           <Action.Tray>
             <Action.Add
               showText
@@ -81,9 +88,9 @@ const Clinicians = () => {
               onClick={handleAdd}
             />
           </Action.Tray>
-        ) : (
+        ) : showForm === true ? (
           <ClinicianForm onSubmit={handleSubmit} onCancel={handleCancel} />
-        )}
+        ) : null}
 
         {!clinicians ? (
           <p>Loading records ...</p>

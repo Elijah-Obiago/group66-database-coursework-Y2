@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { useAuth } from "../auth/authContext.jsx";
+import apiURL from "../api/apiURL.js";
 import Action from "../UI/Actions.jsx";
 import ClinicForm from "../entity/Clinic/ClinicForm.jsx";
 import { CardContainer, Card } from "../UI/Card.jsx";
@@ -7,23 +9,14 @@ import Spacer from "../UI/Spacer.jsx";
 
 // Initialisation -----------------------------------
 
-function Clinics() {
+const Clinics = () => {
   // Initialisation -----------------------------------
-  const newClinic = {
-    ClinicID: 0,
-    ClinicName: "TravelJabs New Clinic",
-    ClinicAddress: "1 Example Street, London",
-    ClinicPostcode: "SW1A 1AA",
-    ClinicContact: "020 0000 0000",
-    ClinicManagerID: 0,
-    ClinicManagerFirstname: "New",
-    ClinicManagerLastname: "Manager",
-    ClinicImageURL:
-      "https://images.freeimages.com/images/small-previews/9b8/electronic-components-2-1242738.jpg",
-  };
-
-  const apiURL = "https://softwarehub.uk/unibase/traveljabs/v1/api";
-  const myClinicEndpoint = `${apiURL}/clinics`;
+  const { loggedInUser } = useAuth();
+  const clinicEnpoint =
+    (loggedInUser && loggedInUser.StaffRoleName === "Clinician") ||
+    (loggedInUser && loggedInUser.StaffRoleName === "Manager")
+      ? `${apiURL}/clinics/${loggedInUser.StaffClinicID}`
+      : `${apiURL}/clinics`;
   const postClinicEndpoint = `${apiURL}/clinics`;
 
   // State --------------------------------------------
@@ -33,12 +26,13 @@ function Clinics() {
   const apiGet = async (endpoint) => {
     const response = await fetch(endpoint);
     const result = await response.json();
-    setClinics(result);
+
+    Array.isArray(result) ? setClinics(result) : setClinics([result]);
   };
 
   useEffect(() => {
-    apiGet(myClinicEndpoint);
-  }, [myClinicEndpoint]);
+    apiGet(clinicEnpoint);
+  }, [clinicEnpoint]);
 
   const apiPost = async (endpoint, record) => {
     //Request
@@ -71,7 +65,7 @@ function Clinics() {
     const result = await apiPost(postClinicEndpoint, clinic);
     if (result.isSuccess) {
       setShowForm(false);
-      apiGet(myClinicEndpoint);
+      apiGet(clinicEnpoint);
     } else alert(`Submission unsuccessful: ${result.message}`);
   };
 
@@ -81,7 +75,9 @@ function Clinics() {
       <h1>Clinics</h1>
 
       <Spacer>
-        {!showForm ? (
+        {!showForm &&
+        loggedInUser &&
+        loggedInUser.StaffRoleName === "Manager" ? (
           <Action.Tray>
             <Action.Add
               showText
@@ -89,9 +85,9 @@ function Clinics() {
               onClick={handleAdd}
             />
           </Action.Tray>
-        ) : (
+        ) : showForm === true ? (
           <ClinicForm onSubmit={handleSubmit} onCancel={handleCancel} />
-        )}
+        ) : null}
 
         {!clinics ? (
           <p>Loading records ...</p>
@@ -105,7 +101,10 @@ function Clinics() {
                       <p>{clinic.ClinicName}</p>
                       <p>{clinic.ClinicPostcode}</p>
                       <img
-                        src={clinic.ClinicImageURL ?? newClinic.ClinicImageURL}
+                        src={
+                          clinic.ClinicImageURL ??
+                          "https://images.freeimages.com/images/small-previews/9b8/electronic-components-2-1242738.jpg"
+                        }
                         alt={clinic.ClinicName}
                       />
                       <p>{clinic.ClinicContact}</p>
@@ -123,6 +122,6 @@ function Clinics() {
       </Spacer>
     </>
   );
-}
+};
 
 export default Clinics;
