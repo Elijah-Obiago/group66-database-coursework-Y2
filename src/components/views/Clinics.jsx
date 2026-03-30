@@ -25,54 +25,17 @@ const Clinics = () => {
   const postClinicEndpoint = `${apiURL}/clinics`;
 
   // State --------------------------------------------
-  const [clinics, setClinics] = useState(null);
-  const [showForm, setShowForm] = useState(false);
-
-  const apiGet = async (endpoint) => {
-    const response = await fetch(endpoint);
-    const result = await response.json();
-
-    Array.isArray(result) ? setClinics(result) : setClinics([result]);
-  };
-
-  useEffect(() => {
-    apiGet(clinicEnpoint);
-  }, [clinicEnpoint]);
-
-  const apiPost = async (endpoint, record) => {
-    //Request
-    const request = {
-      method: "POST",
-      body: JSON.stringify(record),
-      headers: { "Content-Type": "application/json" },
-    };
-
-    //Fetch
-    const response = await fetch(endpoint, request);
-    const result = await response.json();
-    //setClinics(result);
-
-    return response.status >= 200 && response.status < 300
-      ? { isSuccess: true }
-      : { isSuccess: false, message: result.message };
-  };
-
   const myGroupEndpoint = `${apiURL}/clinics`;
   const postMyGroupEndpoint = `${apiURL}/clinics`;
 
-  // State --------------------------------------------
   const [clinics, loadingMessage, loadClinics] = useLoad(myGroupEndpoint);
+  const [showForm, setShowForm] = useState(false);
   const [isFormOpen, openForm, closeForm] = useModal(false);
   const [isAlertOpen, alertMessage, openAlert, closeAlert] = useAlert();
   const [isErrorOpen, errorMessage, openError, closeError] = useAlert();
 
   // Handlers -----------------------------------------
   const handleSubmit = async (clinic) => {
-    const result = await apiPost(postClinicEndpoint, clinic);
-    if (result.isSuccess) {
-      setShowForm(false);
-      apiGet(clinicEnpoint);
-    } else alert(`Submission unsuccessful: ${result.message}`);
     const result = await API.post(postMyGroupEndpoint, clinic);
     if (result.isSuccess) {
       closeForm();
