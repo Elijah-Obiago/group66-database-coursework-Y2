@@ -2,7 +2,6 @@ import useLoad from "../api/useLoad.js";
 import apiURL from "../api/apiURL.js";
 import API from "../api/API.js";
 import { useAuth } from "../auth/authContext.jsx";
-import apiURL from "../api/apiURL.js";
 import Action from "../UI/Actions.jsx";
 import ClinicForm from "../entity/Clinic/ClinicForm.jsx";
 import { CardContainer, Card } from "../UI/Card.jsx";
@@ -10,8 +9,7 @@ import "./Clinics.scss";
 import { Modal, useModal } from "../UI/Modal.jsx";
 import { Alert, Error, useAlert } from "../UI/Alert.jsx";
 import Spacer from "../UI/Spacer.jsx";
-import { useModal } from "../UI/Modal.jsx";
-
+import { useState } from "react";
 // Initialisation -----------------------------------
 
 const Clinics = () => {
