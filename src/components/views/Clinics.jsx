@@ -20,8 +20,8 @@ const Clinics = () => {
       : `${apiURL}/clinics`;
   const postClinicEndpoint = `${apiURL}/clinics`;
 
-  const myGroupEndpoint = `/clinics`;
-  const postMyGroupEndpoint = `/clinics`;
+  const myGroupEndpoint = `${apiURL}/clinics`;
+  const postMyGroupEndpoint = `${apiURL}/clinics`;
 
   const [clinics, loadingMessage, loadClinics] = useLoad(myGroupEndpoint);
   const [showForm, setShowForm] = useState(false);
