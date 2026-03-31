@@ -6,7 +6,7 @@ import Action from "../../UI/Actions.jsx";
 import {Confirm, useAlert} from '../../UI/Alert.jsx'
 import Spacer from "../../UI/Spacer.jsx";
 import "./ClinicForm.scss";
-import useLoad from "../../api/useLoad.js";
+//import useLoad from "../../api/useLoad.js";
 
 const initialClinic = {
   ClinicID: null,

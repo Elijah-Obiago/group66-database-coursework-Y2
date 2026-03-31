@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Modal, useModal } from "../Modal.jsx";
+import { Modal, useModal } from "./Modal.jsx";
 import Spacer from "./Spacer.jsx";
-import Action from "../Actions.jsx";
+import Action from "./Actions.jsx";
 import "./Alert.scss";
-import { useModal } from "./Modal.jsx";
+//import { useModal } from "./Modal.jsx";
 
 
 export const Alert = ({message, onDismiss}) => {
