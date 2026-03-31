@@ -1,7 +1,5 @@
 import useLoad from "../api/useLoad.js";
-import apiURL from "../api/apiURL.js";
 import API from "../api/API.js";
-import { useAuth } from "../auth/authContext.jsx";
 import Action from "../UI/Actions.jsx";
 import ClinicForm from "../entity/Clinic/ClinicForm.jsx";
 import { CardContainer, Card } from "../UI/Card.jsx";
@@ -22,9 +20,8 @@ const Clinics = () => {
       : `${apiURL}/clinics`;
   const postClinicEndpoint = `${apiURL}/clinics`;
 
-  // State --------------------------------------------
-  const myGroupEndpoint = `${apiURL}/clinics`;
-  const postMyGroupEndpoint = `${apiURL}/clinics`;
+  const myGroupEndpoint = `/clinics`;
+  const postMyGroupEndpoint = `/clinics`;
 
   const [clinics, loadingMessage, loadClinics] = useLoad(myGroupEndpoint);
   const [showForm, setShowForm] = useState(false);
