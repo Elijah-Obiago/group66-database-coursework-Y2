@@ -1,20 +1,20 @@
 import { useState } from "react";
 import "./Modal.scss";
 
-export const Modal = ({title, headerColor,children}) => {
+export const Modal = ({ title, headerColor, children }) => {
   //Initialisation ----------------------------
   //State --------------------------------------
   //Handlers -----------------------------------
   //View ---------------------------------------
 
   return (
-    <div className='ModalOverlay'>
-        <div className='ModalPane'>
-            <header style = {{backgroundColor: headerColor}}>
-              <p>{title}</p>
-            </header>
-            <main>{children}</main>
-        </div>
+    <div className="ModalOverlay">
+      <div className="ModalPane">
+        <header style={{ backgroundColor: headerColor }}>
+          <p>{title}</p>
+        </header>
+        <main>{children}</main>
+      </div>
     </div>
   );
 };
@@ -29,5 +29,4 @@ export const useModal = (initialState) => {
 
   //Return ---------------------------------------
   return [isOpen, open, close];
-
 };

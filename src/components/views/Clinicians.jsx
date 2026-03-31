@@ -1,3 +1,6 @@
+import { useAuth } from "../auth/authContext.jsx";
+import API from "../api/API.js";
+import apiURL from "../api/apiURL.js";
 import "./Home.scss";
 import Spacer from "../UI/Spacer.jsx";
 import { useState, useEffect } from "react";
@@ -6,25 +9,16 @@ import Action from "../UI/Actions.jsx";
 import { CardContainer, Card } from "../UI/Card.jsx";
 import ClinicianForm from "../entity/Clinic/ClinicianForm.jsx";
 
-// Initialisation -----------------------------------
-
-function Clinicians() {
-  const newClinician = {
-    StaffID: 0,
-    StaffFirstname: "New",
-    StaffLastname: "Clinician",
-    StaffRoleID: 0,
-    StaffClinicID: 0,
-    StaffRoleName: "Clinician",
-    StaffClinicName: "TravelJabs New Clinic",
-    StaffImageURL:
-      "https://images.freeimages.com/images/small-previews/9b8/electronic-components-2-1242738.jpg",
-    StaffContact: "01234567890",
-  };
-
-  const apiURL = "https://softwarehub.uk/unibase/traveljabs/v1/api";
-  const myGroupEndpoint = `${apiURL}/staff`;
-  const postMyGroupEndpoint = `${apiURL}/staff`;
+const Clinicians = () => {
+  // Initialisation -----------------------------------
+  const { loggedInUser } = useAuth();
+  const clinicianEndpoint =
+    loggedInUser && loggedInUser.StaffRoleName === "Clinician"
+      ? `${apiURL}/staff/clinics/${loggedInUser.StaffClinicID}`
+      : loggedInUser && loggedInUser.StaffRoleName === "Manager"
+        ? `${apiURL}/staff/clinics/${loggedInUser.StaffClinicID}`
+        : null;
+  const postClinicianEndpoint = `${apiURL}/staff`;
 
   // State --------------------------------------------
   const [clinicians, setClinicians] = useState(null);
@@ -33,12 +27,15 @@ function Clinicians() {
   const apiGet = async (endpoint) => {
     const response = await fetch(endpoint);
     const result = await response.json();
-    setClinicians(result);
+
+    Array.isArray(result) ? setClinicians(result) : setClinicians([result]);
   };
 
   useEffect(() => {
-    apiGet(myGroupEndpoint);
-  }, [myGroupEndpoint]);
+    if (clinicianEndpoint !== null) {
+      apiGet(clinicianEndpoint);
+    }
+  }, [clinicianEndpoint]);
 
   const apiPost = async (endpoint, record) => {
     //Request
@@ -51,7 +48,7 @@ function Clinicians() {
     //Fetch
     const response = await fetch(endpoint, request);
     const result = await response.json();
-    setClinicians(result);
+    //setClinicians(result);
 
     return response.status >= 200 && response.status < 300
       ? { isSuccess: true }
@@ -68,10 +65,10 @@ function Clinicians() {
   };
 
   const handleSubmit = async (clinician) => {
-    const result = await apiPost(postMyGroupEndpoint, clinician);
+    const result = await apiPost(postClinicianEndpoint, clinician);
     if (result.isSuccess) {
       setShowForm(false);
-      apiGet(myGroupEndpoint);
+      apiGet(clinicianEndpoint);
     } else alert(`Submission unsuccessful: ${result.message}`);
   };
 
@@ -81,7 +78,9 @@ function Clinicians() {
       <h2>Clinicians</h2>
 
       <Spacer>
-        {!showForm ? (
+        {!showForm &&
+        loggedInUser &&
+        loggedInUser.StaffRoleName === "Manager" ? (
           <Action.Tray>
             <Action.Add
               showText
@@ -89,9 +88,9 @@ function Clinicians() {
               onClick={handleAdd}
             />
           </Action.Tray>
-        ) : (
+        ) : showForm === true ? (
           <ClinicianForm onSubmit={handleSubmit} onCancel={handleCancel} />
-        )}
+        ) : null}
 
         {!clinicians ? (
           <p>Loading records ...</p>
@@ -108,7 +107,8 @@ function Clinicians() {
                       <p>{clinician.StaffRoleName}</p>
                       <img
                         src={
-                          clinician.StaffImageURL ?? newClinician.StaffImageURL
+                          clinician.StaffImageURL ??
+                          "https://images.freeimages.com/images/small-previews/9b8/electronic-components-2-1242738.jpg"
                         }
                         alt={clinician.StaffFirstname}
                       />
@@ -123,6 +123,6 @@ function Clinicians() {
       </Spacer>
     </>
   );
-}
+};
 
 export default Clinicians;

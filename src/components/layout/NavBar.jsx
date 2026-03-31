@@ -17,10 +17,12 @@ const NavBar = () => {
       </div>
       {loggedInUser && (
         <>
-          <div className="navItem">
-            <NavLink to="/clinicians">Clinicians</NavLink>
-          </div>
-
+          {(loggedInUser.StaffRoleName === "Clinician" ||
+            loggedInUser.StaffRoleName === "Manager") && (
+            <div className="navItem">
+              <NavLink to="/clinicians">Clinicians</NavLink>
+            </div>
+          )}
           <div className="navItem">
             <NavLink to="/new-appointment">New Appointment</NavLink>
           </div>
@@ -28,11 +30,11 @@ const NavBar = () => {
           <div className="navItem">
             <NavLink to="/bookings">My Bookings</NavLink>
           </div>
-
-          <div className="navItem">
-            <NavLink to="/prescriptions">Prescriptions</NavLink>
-          </div>
-
+          {loggedInUser.PatientID && (
+            <div className="navItem">
+              <NavLink to="/prescriptions">Prescriptions</NavLink>
+            </div>
+          )}
           <div className="navItem">
             <NavLink to="/clinics">Clinics</NavLink>
           </div>

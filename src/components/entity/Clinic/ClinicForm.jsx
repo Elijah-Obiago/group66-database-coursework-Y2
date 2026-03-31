@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import useLoad from "../../api/useLoad.js";
-import apiURL from '../../api/apiURL.js';
+import apiURL from "../../api/apiURL.js";
 import API from "../../api/API.js";
 import Action from "../../UI/Actions.jsx";
-import {Confirm, useAlert} from '../../UI/Alert.jsx'
+import { Confirm, useAlert } from "../../UI/Alert.jsx";
 import Spacer from "../../UI/Spacer.jsx";
 import "./ClinicForm.scss";
-//import useLoad from "../../api/useLoad.js";
 
 const initialClinic = {
   ClinicID: null,
@@ -15,7 +14,8 @@ const initialClinic = {
   ClinicAddress: null,
   ClinicContact: null,
   ClinicManagerID: null,
-  ClinicImageURL: "https://images.freeimages.com/images/small-previews/9b8/electronic-components-2-1242738.jpg",
+  ClinicImageURL:
+    "https://images.freeimages.com/images/small-previews/9b8/electronic-components-2-1242738.jpg",
 };
 
 const ClinicForm = ({ onSubmit, onCancel }) => {
@@ -23,32 +23,31 @@ const ClinicForm = ({ onSubmit, onCancel }) => {
   const conformance = {
     js2html: {
       ClinicID: (value) => (value === null ? "0" : value),
-      ClinicName: (value) => (value === null) ? '' : value,
-      ClinicPostcode: (value) => (value === null) ? '' : value,
-      ClinicAddress: (value) => (value === null) ? '' : value,
-      ClinicContact: (value) => (value === null) ? '' : value,
-      ClinicManagerID: (value) => (value === null) ? '0' : value,
-      ClinicImageURL: (value) => (value === null) ? '' : value,
+      ClinicName: (value) => (value === null ? "" : value),
+      ClinicPostcode: (value) => (value === null ? "" : value),
+      ClinicAddress: (value) => (value === null ? "" : value),
+      ClinicContact: (value) => (value === null ? "" : value),
+      ClinicManagerID: (value) => (value === null ? "0" : value),
+      ClinicImageURL: (value) => (value === null ? "" : value),
     },
     html2js: {
       ClinicID: (value) => (value === null ? null : value),
-      ClinicName: (value) => (value === '' ? null : value),
-      ClinicPostcode: (value) => (value === '' ? null : value),
-      ClinicAddress: (value) => (value === '' ? null : value),
-      ClinicContact: (value) => (value === '' ? null : value),
-      ClinicManagerID: (value) => (value === '0' ? null : value),
-      ClinicImageURL: (value) => (value === '' ? null : value),
+      ClinicName: (value) => (value === "" ? null : value),
+      ClinicPostcode: (value) => (value === "" ? null : value),
+      ClinicAddress: (value) => (value === "" ? null : value),
+      ClinicContact: (value) => (value === "" ? null : value),
+      ClinicManagerID: (value) => (value === "0" ? null : value),
+      ClinicImageURL: (value) => (value === "" ? null : value),
     },
   };
-
 
   const clinicsEndpoint = `${apiURL}/clinics`;
   const staffEndpoint = `${apiURL}/staff`;
 
   // State -----------------------------------------------
   const [clinic, setClinic] = useState(initialClinic);
-  const [clinics, loadingClinicsMessage,] = useLoad(clinicsEndpoint);
-  const [staff, loadingStaffMessage,] = useLoad(staffEndpoint);
+  const [clinics, loadingClinicsMessage] = useLoad(clinicsEndpoint);
+  const [staff, loadingStaffMessage] = useLoad(staffEndpoint);
   const [isConfirmOpen, confirmMessage, openConfirm, closeConfirm] = useAlert();
 
   // Handlers -----------------------------------------
@@ -61,8 +60,13 @@ const ClinicForm = ({ onSubmit, onCancel }) => {
   // View --------------------------------------------
   return (
     <div className="clinicForm">
-
-      { isConfirmOpen && <Confirm message={confirmMessage} onDismiss={closeConfirm} onConfirm={handleSubmit}/>}
+      {isConfirmOpen && (
+        <Confirm
+          message={confirmMessage}
+          onDismiss={closeConfirm}
+          onConfirm={handleSubmit}
+        />
+      )}
 
       <Spacer>
         <div className="FormTray">
@@ -113,7 +117,9 @@ const ClinicForm = ({ onSubmit, onCancel }) => {
             ) : (
               <select
                 name="ClinicManagerID"
-                value={conformance.js2html.ClinicManagerID(clinic.ClinicManagerID)}
+                value={conformance.js2html.ClinicManagerID(
+                  clinic.ClinicManagerID,
+                )}
                 onChange={handleChange}
               >
                 <option value="0" hidden>
@@ -140,7 +146,11 @@ const ClinicForm = ({ onSubmit, onCancel }) => {
           </label>
         </div>
         <Action.Tray>
-          <Action.Submit showText buttonText="Submit" onClick={() => openConfirm('Are you sure you want to submit?')} />
+          <Action.Submit
+            showText
+            buttonText="Submit"
+            onClick={() => openConfirm("Are you sure you want to submit?")}
+          />
           <Action.Cancel showText buttonText="Cancel form" onClick={onCancel} />
         </Action.Tray>
       </Spacer>
