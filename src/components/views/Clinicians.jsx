@@ -1,6 +1,6 @@
 import { useAuth } from "../auth/authContext.jsx";
 import API from "../api/API.js";
-import apiURL from "../api/apiURL.js";
+import { apiURL } from "../api/apiURL.js";
 import "./Home.scss";
 import Spacer from "../UI/Spacer.jsx";
 import { useState, useEffect } from "react";
