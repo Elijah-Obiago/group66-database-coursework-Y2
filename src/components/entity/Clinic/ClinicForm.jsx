@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
 import useLoad from "../../api/useLoad.js";
-import { apiURL } from "../../api/apiURL.js";
-import API from "../../api/API.js";
-import Action from "../../UI/Actions.jsx";
-import { Confirm, useAlert } from "../../UI/Alert.jsx";
-import Spacer from "../../UI/Spacer.jsx";
+import apiURL from "../../api/apiURL.js";
+import Form from "../../UI/Form.jsx";
+
 import "./ClinicForm.scss";
 
 const initialClinic = {
@@ -45,31 +43,16 @@ const ClinicForm = ({ onSubmit, onCancel }) => {
   const staffEndpoint = `${apiURL}/staff`;
 
   // State -----------------------------------------------
-  const [clinic, setClinic] = useState(initialClinic);
+  const [clinic, handleChange, handleSubmit] = Form.useForm(initialClinic, conformance, onSubmit);
   const [clinics, loadingClinicsMessage] = useLoad(clinicsEndpoint);
   const [staff, loadingStaffMessage] = useLoad(staffEndpoint);
-  const [isConfirmOpen, confirmMessage, openConfirm, closeConfirm] = useAlert();
+
 
   // Handlers -----------------------------------------
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setClinic({ ...clinic, [name]: conformance.html2js[name](value) });
-  };
 
-  const handleSubmit = () => onSubmit(clinic);
   // View --------------------------------------------
   return (
-    <div className="clinicForm">
-      {isConfirmOpen && (
-        <Confirm
-          message={confirmMessage}
-          onDismiss={closeConfirm}
-          onConfirm={handleSubmit}
-        />
-      )}
-
-      <Spacer>
-        <div className="FormTray">
+    <Form onSubmit={handleSubmit} onCancel={onCancel}>
           <label>
             Clinic Name
             <input
@@ -144,17 +127,7 @@ const ClinicForm = ({ onSubmit, onCancel }) => {
               onChange={handleChange}
             />
           </label>
-        </div>
-        <Action.Tray>
-          <Action.Submit
-            showText
-            buttonText="Submit"
-            onClick={() => openConfirm("Are you sure you want to submit?")}
-          />
-          <Action.Cancel showText buttonText="Cancel form" onClick={onCancel} />
-        </Action.Tray>
-      </Spacer>
-    </div>
+    </Form>
   );
 };
 
