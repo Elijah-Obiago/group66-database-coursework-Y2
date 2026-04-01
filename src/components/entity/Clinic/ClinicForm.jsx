@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import useLoad from "../../api/useLoad.js";
-import apiURL from "../../api/apiURL.js";
+import { apiURL } from "../../api/apiURL.js";
 import API from "../../api/API.js";
 import Action from "../../UI/Actions.jsx";
 import { Confirm, useAlert } from "../../UI/Alert.jsx";
