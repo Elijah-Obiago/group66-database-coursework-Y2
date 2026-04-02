@@ -30,11 +30,98 @@ const Form = ({ onSubmit, onCancel, children }) => {
   );
 };
 
+const  FormField= ({label, error, children}) => {
+  //Initialisation ----------------------------
+  //State --------------------------------------
+  //Handlers -----------------------------------
+  //View ---------------------------------------
 
-const useForm = (initialRecord, conformance, onSubmit) => {
+  return (
+    <label>
+      <p className="FormLabel">{label}</p>
+      {children}
+      <p className="FormError">{error}</p>
+    </label>
+  );
+};
+
+
+const TextInput = ({label, name, value, onChange, error}) => {
+  //Initialisation ----------------------------
+  //State --------------------------------------
+  //Handlers -----------------------------------
+  //View ---------------------------------------
+
+  return (
+    <FormField label={label} error={error}>
+      <input
+        type="text"
+        name={name}
+        value={value}
+        onChange={onChange}
+      />
+    </FormField>
+  );
+};
+
+const TextSelect = ({label, name, value, options, onChange, error}) => {
+  //Initialisation ----------------------------
+  //State --------------------------------------
+  //Handlers -----------------------------------
+  //View ---------------------------------------
+
+  return (
+    <FormField label={label} error={error}>
+     {!options.list ? (
+      <p>{options.noOptionsMessage}</p>
+      ) : (
+      <select
+      name={name}
+      value={value}
+      onChange={onChange}
+      >
+        <option value={options.unselected.value} hidden>
+          {options.unselected.label}
+        </option>
+
+        {options.list.map((option) => (
+          <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+          </select>
+        )}
+    </FormField>
+  );
+};
+
+
+
+const useForm = (initialRecord, conformance, validation, onSubmit) => {
   //Initialisation ----------------------------
   //State --------------------------------------
   const [record, setRecord] = useState(initialRecord);
+  const [errors, setErrors] = useState(
+    Object.keys(initialRecord).reduce((accum,key) => ({...accum,[key] : null}),{})
+
+  );
+
+  const isValidRecord = (record) => {
+    let isRecordValid = true;
+
+
+    Object.keys(validation.isValid).forEach((key) => {
+        const value = record[key];
+        if (validation.isValid[key](value) )
+          errors[key] = null;
+        else{
+          errors[key] = validation.errorMessage[key];
+          isRecordValid = false;
+        }
+      }
+    )
+    return isRecordValid
+  }
 
   //Handlers -----------------------------------
   const handleChange = (event) => {
@@ -42,13 +129,17 @@ const useForm = (initialRecord, conformance, onSubmit) => {
     setRecord({ ...record, [name]: conformance.html2js[name](value) });
   };
 
-  const handleSubmit = () => onSubmit(record);
-
-  //View ---------------------------------------
-  return {record, handleChange, handleSubmit};
+  const handleSubmit = () => {
+    isValidRecord(record) && onSubmit(record);
+    setErrors({...errors});
+  }
+  //Return ---------------------------------------
+  return {record, errors, handleChange, handleSubmit};
 };
 
 //Compound component
 Form.useForm = useForm;
+Form.TextInput =  TextInput;
+Form.TextSelect =  TextSelect;
 
 export default Form;
