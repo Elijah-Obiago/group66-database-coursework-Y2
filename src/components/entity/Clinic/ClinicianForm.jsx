@@ -15,7 +15,7 @@ const initialClinician = {
     "https://images.freeimages.com/images/small-previews/9b8/electronic-components-2-1242738.jpg",
 };
 
-function ClinicianForm({ onSubmit, onCancel }) {
+function ClinicianForm({ onSubmit, onCancel, initialData }) {
   //Initialisation --------------------------------------
   const conformance = {
     js2html: {
@@ -47,7 +47,7 @@ function ClinicianForm({ onSubmit, onCancel }) {
   const staffEndpoint = `${apiURL}/staff`;
 
   // State -----------------------------------------------
-  const [clinician, setClinician] = useState(initialClinician);
+  const [clinician, setClinician] = useState(initialData || initialClinician);
   const [clinics, setClinics] = useState(null);
   const [staff, setStaff] = useState(null);
 
