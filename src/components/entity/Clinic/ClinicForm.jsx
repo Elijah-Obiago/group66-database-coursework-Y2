@@ -68,7 +68,6 @@ const ClinicForm = ({ onSubmit, onCancel }) => {
   const [clinics, loadingClinicsMessage] = useLoad(clinicsEndpoint);
   const [staff, loadingStaffMessage] = useLoad(staffEndpoint);
 
-
   // Handlers -----------------------------------------
 
   // View --------------------------------------------
