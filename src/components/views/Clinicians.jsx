@@ -13,21 +13,6 @@ const Clinicians = () => {
   // Initialisation -----------------------------------
   const { loggedInUser } = useAuth();
 
-  {editingClinician ? (
-    <ClinicianForm
-      initialData={editingClinician}
-      onSubmit={handleUpdate}
-      onCancel={() => setEditingClinician(null)}
-    />
-  ) : !showForm && loggedInUser?.StaffRoleName === "Manager" ? (
-    <Action.Tray>
-      <Action.Add
-        showText buttonText="Add new clinician"
-        onClick={handleAdd}
-      />
-    </Action.Tray>
-  ) : null}
-
   const clinicianEndpoint =
     loggedInUser && loggedInUser.StaffRoleName === "Clinician"
       ? `${apiURL}/staff/clinics/${loggedInUser.StaffClinicID}`
@@ -37,9 +22,10 @@ const Clinicians = () => {
   const postClinicianEndpoint = `${apiURL}/staff`;
 
   // State --------------------------------------------
+  const [editingClinician, setEditingClinician] = useState(null);
   const [clinicians, setClinicians] = useState(null);
   const [showForm, setShowForm] = useState(false);
-  const [editingClinician, setEditingClinician] = useState(null);
+ 
 
   const apiGet = async (endpoint) => {
     const response = await fetch(endpoint);
@@ -138,20 +124,23 @@ const Clinicians = () => {
     <>
       <h2>Clinicians</h2>
 
+
+
       <Spacer>
-        {!showForm &&
-        loggedInUser &&
-        loggedInUser.StaffRoleName === "Manager" ? (
-          <Action.Tray>
-            <Action.Add
-              showText
-              buttonText="Add new clinician"
-              onClick={handleAdd}
-            />
-          </Action.Tray>
-        ) : showForm === true ? (
-          <ClinicianForm onSubmit={handleSubmit} onCancel={handleCancel} />
-        ) : null}
+              {editingClinician ? (
+    <ClinicianForm
+      initialData={editingClinician}
+      onSubmit={handleUpdate}
+      onCancel={() => setEditingClinician(null)}
+    />
+  ) : !showForm && loggedInUser?.StaffRoleName === "Manager" ? (
+    <Action.Tray>
+      <Action.Add
+        showText buttonText="Add new clinician"
+        onClick={handleAdd}
+      />
+    </Action.Tray>
+  ) : null}
 
         {!clinicians ? (
           <p>Loading records ...</p>
