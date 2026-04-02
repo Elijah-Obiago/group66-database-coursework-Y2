@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import useLoad from "../../api/useLoad.js";
-import apiURL from "../../api/apiURL.js";
+import { apiURL } from "../../api/apiURL.js";
 import Form from "../../UI/Form.jsx";
 
 import "./ClinicForm.scss";
@@ -43,90 +43,91 @@ const ClinicForm = ({ onSubmit, onCancel }) => {
   const staffEndpoint = `${apiURL}/staff`;
 
   // State -----------------------------------------------
-  const [clinic, handleChange, handleSubmit] = Form.useForm(initialClinic, conformance, onSubmit);
+  const [clinic, handleChange, handleSubmit] = Form.useForm(
+    initialClinic,
+    conformance,
+    onSubmit,
+  );
   const [clinics, loadingClinicsMessage] = useLoad(clinicsEndpoint);
   const [staff, loadingStaffMessage] = useLoad(staffEndpoint);
-
 
   // Handlers -----------------------------------------
 
   // View --------------------------------------------
   return (
     <Form onSubmit={handleSubmit} onCancel={onCancel}>
-          <label>
-            Clinic Name
-            <input
-              type="text"
-              name="ClinicName"
-              value={conformance.js2html.ClinicName(clinic.ClinicName)}
-              onChange={handleChange}
-            />
-          </label>
+      <label>
+        Clinic Name
+        <input
+          type="text"
+          name="ClinicName"
+          value={conformance.js2html.ClinicName(clinic.ClinicName)}
+          onChange={handleChange}
+        />
+      </label>
 
-          <label>
-            Clinic Postcode
-            <input
-              type="text"
-              name="ClinicPostcode"
-              value={conformance.js2html.ClinicPostcode(clinic.ClinicPostcode)}
-              onChange={handleChange}
-            />
-          </label>
+      <label>
+        Clinic Postcode
+        <input
+          type="text"
+          name="ClinicPostcode"
+          value={conformance.js2html.ClinicPostcode(clinic.ClinicPostcode)}
+          onChange={handleChange}
+        />
+      </label>
 
-          <label>
-            Clinic Address
-            <input
-              type="text"
-              name="ClinicAddress"
-              value={conformance.js2html.ClinicAddress(clinic.ClinicAddress)}
-              onChange={handleChange}
-            />
-          </label>
+      <label>
+        Clinic Address
+        <input
+          type="text"
+          name="ClinicAddress"
+          value={conformance.js2html.ClinicAddress(clinic.ClinicAddress)}
+          onChange={handleChange}
+        />
+      </label>
 
-          <label>
-            Clinic Contact
-            <input
-              type="text"
-              name="ClinicContact"
-              value={conformance.js2html.ClinicContact(clinic.ClinicContact)}
-              onChange={handleChange}
-            />
-          </label>
+      <label>
+        Clinic Contact
+        <input
+          type="text"
+          name="ClinicContact"
+          value={conformance.js2html.ClinicContact(clinic.ClinicContact)}
+          onChange={handleChange}
+        />
+      </label>
 
-          <label>
-            Clinic Manager
-            {!staff ? (
-              <p>{loadingStaffMessage}</p>
-            ) : (
-              <select
-                name="ClinicManagerID"
-                value={conformance.js2html.ClinicManagerID(
-                  clinic.ClinicManagerID,
-                )}
-                onChange={handleChange}
-              >
-                <option value="0" hidden>
-                  No manager selected
-                </option>
+      <label>
+        Clinic Manager
+        {!staff ? (
+          <p>{loadingStaffMessage}</p>
+        ) : (
+          <select
+            name="ClinicManagerID"
+            value={conformance.js2html.ClinicManagerID(clinic.ClinicManagerID)}
+            onChange={handleChange}
+          >
+            <option value="0" hidden>
+              No manager selected
+            </option>
 
-                {staff.map((user) => (
-                  <option key={user.StaffID} value={user.StaffID}>
-                    {`${user.StaffFirstname} ${user.StaffLastname}`}
-                  </option>
-                ))}
-              </select>
-            )}
-          </label>
+            {staff.map((user) => (
+              <option key={user.StaffID} value={user.StaffID}>
+                {`${user.StaffFirstname} ${user.StaffLastname}`}
+              </option>
+            ))}
+          </select>
+        )}
+      </label>
 
-          <label>
-            Clinic Image URL
-            <input
-              type="text"
-              name="ClinicImageURL"
-              value={conformance.js2html.ClinicImageURL(clinic.ClinicImageURL)}
-              onChange={handleChange}
-            />
-          </label>
+      <label>
+        Clinic Image URL
+        <input
+          type="text"
+          name="ClinicImageURL"
+          value={conformance.js2html.ClinicImageURL(clinic.ClinicImageURL)}
+          onChange={handleChange}
+        />
+      </label>
     </Form>
   );
 };
