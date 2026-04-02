@@ -12,6 +12,22 @@ import ClinicianForm from "../entity/Clinic/ClinicianForm.jsx";
 const Clinicians = () => {
   // Initialisation -----------------------------------
   const { loggedInUser } = useAuth();
+
+  {editingClinician ? (
+    <ClinicianForm
+      initialData={editingClinician}
+      onSubmit={handleUpdate}
+      onCancel={() => setEditingClinician(null)}
+    />
+  ) : !showForm && loggedInUser?.StaffRoleName === "Manager" ? (
+    <Action.Tray>
+      <Action.Add
+        showText buttonText="Add new clinician"
+        onClick={handleAdd}
+      />
+    </Action.Tray>
+  ) : null}
+
   const clinicianEndpoint =
     loggedInUser && loggedInUser.StaffRoleName === "Clinician"
       ? `${apiURL}/staff/clinics/${loggedInUser.StaffClinicID}`
@@ -23,6 +39,7 @@ const Clinicians = () => {
   // State --------------------------------------------
   const [clinicians, setClinicians] = useState(null);
   const [showForm, setShowForm] = useState(false);
+  const [editingClinician, setEditingClinician] = useState(null);
 
   const apiGet = async (endpoint) => {
     const response = await fetch(endpoint);
@@ -55,6 +72,38 @@ const Clinicians = () => {
       : { isSuccess: false, message: result.message };
   };
 
+  const apiDelete = async (endpoint, record) => {
+    const request = {
+      method: "DELETE",
+      body: JSON.stringify(record),
+      headers: { "Content-Type": "application/json" },
+    };
+    const response = await fetch(endpoint, request);
+    const result = await response.json();
+    return response.status >= 200 && response.status < 300
+      ? { isSuccess: true }
+      : { isSuccess: false, message: result.message };
+    };
+
+    const apiPut = async (endpoint, record) => {
+    //Request
+    const request = {
+      method: "PUT",
+      body: JSON.stringify(record),
+      headers: { "Content-Type": "application/json" },
+    };
+
+    //Fetch
+    const response = await fetch(endpoint, request);
+    const result = await response.json();
+    //setClinicians(result);
+
+    return response.status >= 200 && response.status < 300
+      ? { isSuccess: true }
+      : { isSuccess: false, message: result.message };
+  };
+
+
   // Handlers -----------------------------------------
   const handleAdd = (clinician) => {
     setShowForm(true);
@@ -70,6 +119,18 @@ const Clinicians = () => {
       setShowForm(false);
       apiGet(clinicianEndpoint);
     } else alert(`Submission unsuccessful: ${result.message}`);
+  };
+
+  const handleDelete = async (clinician) => {
+    const result = await apiDelete(`${apiURL}/staff/${ clinician.StaffID }`);
+    if (result.isSuccess) {      apiGet(clinicianEndpoint);
+    } else alert(`Deletion unsuccessful: ${result.message}`);
+  
+
+  const handleUpdate = async (clinician) => {
+    const result = await apiPut(`${apiURL}/staff/${ clinician.StaffID }`, clinician);
+  };   if (result.isSuccess) {      apiGet(clinicianEndpoint);
+    } else alert(`Update unsuccessful: ${result.message}`);
   };
 
   // View ---------------------------------------------
@@ -113,6 +174,10 @@ const Clinicians = () => {
                         alt={clinician.StaffFirstname}
                       />
                       <p>{clinician.StaffContact}</p>
+                      <Action.Tray>
+                        <Action.Modify onClick={() => setEditingClinician(clinician)}/>
+                        <Action.Delete onClick={() => handleDelete(clinician)}/>
+                      </Action.Tray>
                     </Card>
                   </div>
                 );

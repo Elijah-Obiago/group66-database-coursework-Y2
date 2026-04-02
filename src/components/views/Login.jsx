@@ -23,13 +23,13 @@ const staff = {
 };
 
 const manager = {
-  StaffID: 1,
-  StaffFirstname: "Emma",
-  StaffLastname: "Collins",
+  StaffID: 15,
+  StaffFirstname: "Samira",
+  StaffLastname: "Noor",
   StaffRoleID: 1,
-  StaffClinicID: 1,
+  StaffClinicID: 5,
   StaffRoleName: "Manager",
-  StaffClinicName: "TravelJabs Brighton",
+  StaffClinicName: "TravelJabs Crawley",
 };
 
 const Login = () => {
