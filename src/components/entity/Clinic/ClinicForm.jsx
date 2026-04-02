@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import useLoad from "../../api/useLoad.js";
-import apiURL from "../../api/apiURL.js";
+import { apiURL } from "../../api/apiURL.js";
 import Form from "../../UI/Form.jsx";
 
 import "./ClinicForm.scss";
@@ -64,7 +64,7 @@ const ClinicForm = ({ onSubmit, onCancel }) => {
   const staffEndpoint = `${apiURL}/staff`;
 
   // State -----------------------------------------------
-  const [clinic, errors, handleChange, handleSubmit] = Form.useForm(initialClinic, conformance, validation, onSubmit);
+  const {record: clinic, errors, handleChange, handleSubmit} = Form.useForm(initialClinic, conformance, validation, onSubmit);
   const [clinics, loadingClinicsMessage] = useLoad(clinicsEndpoint);
   const [staff, loadingStaffMessage] = useLoad(staffEndpoint);
 
@@ -122,32 +122,6 @@ const ClinicForm = ({ onSubmit, onCancel }) => {
         error={errors.ClinicManagerID}
       />
 
-
-
-          <label>
-            Clinic Manager
-            {!staff ? (
-              <p>{loadingStaffMessage}</p>
-            ) : (
-              <select
-                name="ClinicManagerID"
-                value={conformance.js2html.ClinicManagerID(
-                  clinic.ClinicManagerID,
-                )}
-                onChange={handleChange}
-              >
-                <option value="0" hidden>
-                  No manager selected
-                </option>
-
-                {staff.map((user) => (
-                  <option key={user.StaffID} value={user.StaffID}>
-                    {`${user.StaffFirstname} ${user.StaffLastname}`}
-                  </option>
-                ))}
-              </select>
-            )}
-          </label>
 
       <Form.TextInput 
         label='Clinic Image URL'
