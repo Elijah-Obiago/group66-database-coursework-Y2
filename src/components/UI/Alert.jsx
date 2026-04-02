@@ -11,7 +11,7 @@ export const Alert = ({ message, onDismiss }) => {
   //View ---------------------------------------
 
   return (
-    <Modal tittle="Alert" headerColor="DodgerBlue">
+    <Modal title="Alert" headerColor="DodgerBlue">
       <Spacer>
         <p className="alertMessage">{message}</p>
         <Action.Tray>
@@ -29,7 +29,7 @@ export const Error = ({ message, onDismiss }) => {
   //View ---------------------------------------
 
   return (
-    <Modal tittle="Error" headerColor="Red">
+    <Modal title="Error" headerColor="Red">
       <Spacer>
         <p className="alertMessage">{message}</p>
         <Action.Tray>
@@ -52,7 +52,7 @@ export const Confirm = ({ message, onConfirm, onDismiss }) => {
   //View ---------------------------------------
 
   return (
-    <Modal tittle="Confirmation needed" headerColor="Red">
+    <Modal title="Confirmation needed" headerColor="Red">
       <Spacer>
         <p className="alertMessage">{message}</p>
         <Action.Tray>
