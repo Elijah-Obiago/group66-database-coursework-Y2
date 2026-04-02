@@ -51,47 +51,52 @@ const ClinicForm = ({ onSubmit, onCancel }) => {
   // Handlers -----------------------------------------
 
   // View --------------------------------------------
+  const managerOptions = {
+    noOptionsMessage: loadingStaffMessage,
+    unselected: {value: '0', label: 'No manager selected'},
+    list: staff && staff.map((user) => ({value: user.StaffID, label: `${user.StaffFirstname} ${user.StaffLastname}`}))
+  };
+
   return (
     <Form onSubmit={handleSubmit} onCancel={onCancel}>
-          <label>
-            Clinic Name
-            <input
-              type="text"
-              name="ClinicName"
-              value={conformance.js2html.ClinicName(clinic.ClinicName)}
-              onChange={handleChange}
-            />
-          </label>
 
-          <label>
-            Clinic Postcode
-            <input
-              type="text"
-              name="ClinicPostcode"
-              value={conformance.js2html.ClinicPostcode(clinic.ClinicPostcode)}
-              onChange={handleChange}
-            />
-          </label>
+      <Form.TextInput 
+        label='Clinic Name' 
+        name='ClinicName' 
+        value={conformance.js2html.ClinicName(clinic.ClinicName)} 
+        onChange={handleChange}
+      />
 
-          <label>
-            Clinic Address
-            <input
-              type="text"
-              name="ClinicAddress"
-              value={conformance.js2html.ClinicAddress(clinic.ClinicAddress)}
-              onChange={handleChange}
-            />
-          </label>
+      <Form.TextInput 
+        label='Clinic Postcode'
+        name='ClinicPostcode' 
+        value={conformance.js2html.ClinicPostcode(clinic.ClinicPostcode)} 
+        onChange={handleChange}
+      />
 
-          <label>
-            Clinic Contact
-            <input
-              type="text"
-              name="ClinicContact"
-              value={conformance.js2html.ClinicContact(clinic.ClinicContact)}
-              onChange={handleChange}
-            />
-          </label>
+      <Form.TextInput 
+        label='Clinic Address'
+        name='ClinicAddress' 
+        value={conformance.js2html.ClinicAddress(clinic.ClinicAddress)} 
+        onChange={handleChange}
+      />
+
+      <Form.TextInput 
+        label='Clinic Contact'
+        name='ClinicContact' 
+        value={conformance.js2html.ClinicContact(clinic.ClinicContact)} 
+        onChange={handleChange}
+      />
+
+      <Form.TextSelect
+        label='Clinic Manager'
+        name='ClinicManagerID' 
+        value={conformance.js2html.ClinicManagerID(clinic.ClinicManagerID)} 
+        options={managerOptions}
+        onChange={handleChange}
+      />
+
+
 
           <label>
             Clinic Manager
@@ -118,15 +123,13 @@ const ClinicForm = ({ onSubmit, onCancel }) => {
             )}
           </label>
 
-          <label>
-            Clinic Image URL
-            <input
-              type="text"
-              name="ClinicImageURL"
-              value={conformance.js2html.ClinicImageURL(clinic.ClinicImageURL)}
-              onChange={handleChange}
-            />
-          </label>
+      <Form.TextInput 
+        label='Clinic Image URL'
+        name='ClinicImageURL' 
+        value={conformance.js2html.ClinicImageURL(clinic.ClinicImageURL)} 
+        onChange={handleChange}
+      />
+
     </Form>
   );
 };

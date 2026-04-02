@@ -31,6 +31,59 @@ const Form = ({ onSubmit, onCancel, children }) => {
 };
 
 
+const TextInput = ({label, name, value, onChange}) => {
+  //Initialisation ----------------------------
+  //State --------------------------------------
+  //Handlers -----------------------------------
+  //View ---------------------------------------
+
+  return (
+    <label>
+      {label}
+      <input
+        type="text"
+        name={name}
+        value={value}
+        onChange={onChange}
+      />
+    </label>
+  );
+};
+
+const TextSelect = ({label, name, value, options, onChange}) => {
+  //Initialisation ----------------------------
+  //State --------------------------------------
+  //Handlers -----------------------------------
+  //View ---------------------------------------
+
+  return (
+    <label>
+    {label}
+     {!options.list ? (
+      <p>{options.noOPtionsMessage}</p>
+      ) : (
+      <select
+      name={name}
+      value={value}
+      onChange={onChange}
+      >
+        <option value={options.unselected.value} hidden>
+          {options.unselected.label}
+        </option>
+
+        {options.list.map((option) => (
+          <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+          </select>
+        )}
+    </label>
+  );
+};
+
+
+
 const useForm = (initialRecord, conformance, onSubmit) => {
   //Initialisation ----------------------------
   //State --------------------------------------
@@ -50,5 +103,7 @@ const useForm = (initialRecord, conformance, onSubmit) => {
 
 //Compound component
 Form.useForm = useForm;
+Form.TextInput =  TextInput;
+Form.TextSelect =  TextSelect;
 
 export default Form;
