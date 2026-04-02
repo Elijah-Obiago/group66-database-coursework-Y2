@@ -39,11 +39,32 @@ const ClinicForm = ({ onSubmit, onCancel }) => {
     },
   };
 
+  const validation = {
+
+    isValid: {
+      ClinicName: (name) => name && name.length>8,
+      ClinicPostcode: (postcode) => postcode && postcode.length > 4 && postcode.length < 8,
+      ClinicAddress: (address) => address && address.length>10,
+      ClinicContact: (contact) => contact && contact.length>10,
+      ClinicManagerID: (id) => id === null || id > 0,
+      ClinicImageURL: (url) => /^(http|https):\/\/(([a-zA-Z0-9$\-_.+!*'(),;:&=]|%[0-9a-fA-F]{2})+@)?(((25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9]|[1-9][0-9]|[0-9])(\.(25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9]|[1-9][0-9]|[0-9])){3})|localhost|([a-zA-Z0-9\-\u00C0-\u017F]+\.)+([a-zA-Z]{2,}))(:[0-9]+)?(\/(([a-zA-Z0-9$\-_.+!*'(),;:@&=]|%[0-9a-fA-F]{2})*(\/([a-zA-Z0-9$\-_.+!*'(),;:@&=]|%[0-9a-fA-F]{2})*)*)?(\?([a-zA-Z0-9$\-_.+!*'(),;:@&=/?]|%[0-9a-fA-F]{2})*)?(#([a-zA-Z0-9$\-_.+!*'(),;:@&=/?]|%[0-9a-fA-F]{2})*)?)?$/.test(url),
+
+    },
+    errorMessage: {
+      ClinicName: 'Clinic name is too short',
+      ClinicPostcode: 'Not valid postcode',
+      ClinicAddress: 'Not valid address',
+      ClinicContact: 'Contact number is too short',
+      ClinicManagerID: 'Invalid manager has been selected',
+      ClinicImageURL: 'The URL entered is not a valid URL string',
+    }
+  }
+
   const clinicsEndpoint = `${apiURL}/clinics`;
   const staffEndpoint = `${apiURL}/staff`;
 
   // State -----------------------------------------------
-  const [clinic, handleChange, handleSubmit] = Form.useForm(initialClinic, conformance, onSubmit);
+  const [clinic, errors, handleChange, handleSubmit] = Form.useForm(initialClinic, conformance, validation, onSubmit);
   const [clinics, loadingClinicsMessage] = useLoad(clinicsEndpoint);
   const [staff, loadingStaffMessage] = useLoad(staffEndpoint);
 
@@ -65,6 +86,7 @@ const ClinicForm = ({ onSubmit, onCancel }) => {
         name='ClinicName' 
         value={conformance.js2html.ClinicName(clinic.ClinicName)} 
         onChange={handleChange}
+        error={errors.ClinicName}
       />
 
       <Form.TextInput 
@@ -72,6 +94,7 @@ const ClinicForm = ({ onSubmit, onCancel }) => {
         name='ClinicPostcode' 
         value={conformance.js2html.ClinicPostcode(clinic.ClinicPostcode)} 
         onChange={handleChange}
+        error={errors.ClinicPostcode}
       />
 
       <Form.TextInput 
@@ -79,6 +102,7 @@ const ClinicForm = ({ onSubmit, onCancel }) => {
         name='ClinicAddress' 
         value={conformance.js2html.ClinicAddress(clinic.ClinicAddress)} 
         onChange={handleChange}
+        error={errors.ClinicAddress}
       />
 
       <Form.TextInput 
@@ -86,6 +110,7 @@ const ClinicForm = ({ onSubmit, onCancel }) => {
         name='ClinicContact' 
         value={conformance.js2html.ClinicContact(clinic.ClinicContact)} 
         onChange={handleChange}
+        error={errors.ClinicContact}
       />
 
       <Form.TextSelect
@@ -94,6 +119,7 @@ const ClinicForm = ({ onSubmit, onCancel }) => {
         value={conformance.js2html.ClinicManagerID(clinic.ClinicManagerID)} 
         options={managerOptions}
         onChange={handleChange}
+        error={errors.ClinicManagerID}
       />
 
 
@@ -128,8 +154,8 @@ const ClinicForm = ({ onSubmit, onCancel }) => {
         name='ClinicImageURL' 
         value={conformance.js2html.ClinicImageURL(clinic.ClinicImageURL)} 
         onChange={handleChange}
+        error={errors.ClinicImageURL}
       />
-
     </Form>
   );
 };

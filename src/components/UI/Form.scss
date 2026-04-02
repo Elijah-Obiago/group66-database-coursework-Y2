@@ -1,3 +1,6 @@
+$BorderGrey: LightGrey;
+$DarkRose: #d96c7c;
+
 div.Form {
   min-width: 400px;
   border: 1px solid LightGrey;
@@ -15,9 +18,16 @@ div.Form {
       width: 100%;
     }
  } 
-
-    $BorderGrey: LightGrey;
-
+    
+  label{ 
+    p.FormLabel{
+      font-weight: 500;
+    }
+    
+    p.FormError{
+      font-size: 90%;
+      color: $DarkRose;
+    }
     select,
     input {
         padding: 3px;
@@ -46,4 +56,5 @@ div.Form {
             outline-color: $DarkGreen;
         }
     }
+  }
 }
