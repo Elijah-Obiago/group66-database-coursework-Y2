@@ -73,7 +73,7 @@ const TextSelect = ({label, name, value, options, onChange, error}) => {
   return (
     <FormField label={label} error={error}>
      {!options.list ? (
-      <p>{options.noOPtionsMessage}</p>
+      <p>{options.noOptionsMessage}</p>
       ) : (
       <select
       name={name}
